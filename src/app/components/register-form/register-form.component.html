@@ -8,23 +8,25 @@
       </div>
       <!--Body-->
       <div class="card-body">
-        <form class="form">
+        <form [formGroup]="signUpForm" (nbSumbit)="onSubmit()" class="form">
           <!--Login-->
           <div class="form-group">
-            <label for="">Identifiant</label>
+            <label for="email">E-Mail</label>
             <input
-              [(ngModel)]="registerUserData.login"
-              name="login"
+              name="email"
+              id="email"
+              formControlName="email"
               type="text"
               class="form-control rounded-0"
               required
             />
           </div>
           <div class="form-group">
-            <label for="">Confirmez l'identifiant</label>
+            <label for="emailConformation">Confirmez l'email</label>
             <input
-              [(ngModel)]="registerUserData.loginConfirmation"
-              name="loginConfirmation"
+              name="emailConfirmation"
+              id="emailConfirmation"
+              formControlName="emailConfirmation"
               type="text"
               class="form-control rounded-0"
               required
@@ -33,34 +35,42 @@
           <br />
           <!--Password-->
           <div class="form-group">
-            <label for="">Mot de passe</label>
+            <label for="password">Mot de passe</label>
             <input
-              [(ngModel)]="registerUserData.password"
               name="password"
+              id="password"
+              formControlName="password"
               type="password"
               class="form-control rounded-0"
               required
             />
           </div>
           <div class="form-group">
-            <label for="">Confirmez le mot de passe</label>
+            <label for="passwordConfirmation">Confirmez le mot de passe</label>
             <input
-              [(ngModel)]="registerUserData.passwordConfirmation"
               name="passwordConfirmation"
+              id="passwordConfirmation"
+              formControlName="passwordConfirmation"
               type="password"
               class="form-control rounded-0"
               required
             />
-          </div>
-          <!--Btn-->
+            <!--Btn-->
           <button
-            (click)="OnClickOnRegister()"
-            type="button"
+            type="submit"
+            [disabled]="signUpForm.invalid"
             class="btn btn-primary float-right"
           >
             S'inscrire
           </button>
+
+          </div>
+          
         </form>
+
+        <p class="text-danger">
+           {{ errorMessage }}
+        </p>
       </div>
       <!--/card-block-->
     </div>
