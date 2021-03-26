@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-md-5 mx-auto">
+    <!--card-block-->
+    <div class="card rounded-0">
+      <!--Header-->
+      <div class="card-header">
+        <h3 class="mb-0">Inscription</h3>
+      </div>
+      <!--Body-->
+      <div class="card-body">
+        <form class="form">
+          <!--Login-->
+          <div class="form-group">
+            <label for="">Identifiant</label>
+            <input
+              [(ngModel)]="registerUserData.login"
+              name="login"
+              type="text"
+              class="form-control rounded-0"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="">Confirmez l'identifiant</label>
+            <input
+              [(ngModel)]="registerUserData.loginConfirmation"
+              name="loginConfirmation"
+              type="text"
+              class="form-control rounded-0"
+              required
+            />
+          </div>
+          <br />
+          <!--Password-->
+          <div class="form-group">
+            <label for="">Mot de passe</label>
+            <input
+              [(ngModel)]="registerUserData.password"
+              name="password"
+              type="password"
+              class="form-control rounded-0"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="">Confirmez le mot de passe</label>
+            <input
+              [(ngModel)]="registerUserData.passwordConfirmation"
+              name="passwordConfirmation"
+              type="password"
+              class="form-control rounded-0"
+              required
+            />
+          </div>
+          <!--Btn-->
+          <button
+            (click)="OnClickOnRegister()"
+            type="button"
+            class="btn btn-primary float-right"
+          >
+            S'inscrire
+          </button>
+        </form>
+      </div>
+      <!--/card-block-->
+    </div>
+  </div>
+</div>

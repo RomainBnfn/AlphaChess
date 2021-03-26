@@ -1,0 +1,14 @@
+.container {
+  background-color: rgb(40, 40, 87);
+  margin: 0;
+
+  display: table;
+  color: white;
+}
+.page {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  margin-top: 50px;
+}
