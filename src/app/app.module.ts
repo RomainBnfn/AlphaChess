@@ -29,11 +29,12 @@ import { LoginComponent } from './pages/login/login.component';
     RegisterFormComponent,
   ],
   imports: [
-    BrowserModule, 
-    AppRoutingModule, 
-    HttpClientModule, 
-    FormsModule, 
-    ReactiveFormsModule],
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   providers: [
     AuthService,
     AuthGuard,

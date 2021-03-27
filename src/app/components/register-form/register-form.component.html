@@ -8,8 +8,8 @@
       </div>
       <!--Body-->
       <div class="card-body">
-        <form [formGroup]="signUpForm" (nbSumbit)="onSubmit()" class="form">
-          <!--Login-->
+        <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="form">
+          <!--Email-->
           <div class="form-group">
             <label for="email">E-Mail</label>
             <input
@@ -29,9 +29,36 @@
               formControlName="emailConfirmation"
               type="text"
               class="form-control rounded-0"
+              autocomplete="none"
               required
             />
           </div>
+          <!--Message Erreur Email-->
+          <div
+            *ngIf="
+              (email?.invalid && (email?.dirty || email?.touched)) ||
+              (emailConfirmation?.invalid &&
+                (emailConfirmation?.dirty || emailConfirmation?.touched)) ||
+              (signUpForm.errors?.NotSameEmail &&
+                (emailConfirmation?.touched || emailConfirmation?.dirty))
+            "
+            class="alert alert-danger"
+          >
+            <p
+              *ngIf="
+                email?.errors?.required ||
+                (emailConfirmation?.errors?.required &&
+                  (emailConfirmation?.dirty || emailConfirmation?.touched))
+              "
+            >
+              Merci de remplir ces champs.
+            </p>
+            <p *ngIf="email?.errors?.email">Merci de saisir un mail valide.</p>
+            <p *ngIf="signUpForm.errors?.NotSameEmail">
+              Les emails ne correspondent pas.
+            </p>
+          </div>
+
           <br />
           <!--Password-->
           <div class="form-group">
@@ -42,6 +69,8 @@
               formControlName="password"
               type="password"
               class="form-control rounded-0"
+              placeholder="******"
+              autocomplete="off"
               required
             />
           </div>
@@ -53,23 +82,51 @@
               formControlName="passwordConfirmation"
               type="password"
               class="form-control rounded-0"
+              placeholder="******"
+              autocomplete="off"
               required
             />
-            <!--Btn-->
-          <button
-            type="submit"
-            [disabled]="signUpForm.invalid"
-            class="btn btn-primary float-right"
-          >
-            S'inscrire
-          </button>
 
+            <!--Message Erreur Password-->
+            <div
+              *ngIf="
+                (password?.invalid && (password?.dirty || password?.touched)) ||
+                (passwordConfirmation?.invalid &&
+                  (passwordConfirmation?.dirty ||
+                    passwordConfirmation?.touched)) ||
+                (signUpForm.errors?.NotSamePassword &&
+                  (passwordConfirmation?.touched ||
+                    passwordConfirmation?.dirty))
+              "
+              class="alert alert-danger"
+            >
+              <p
+                *ngIf="
+                  password?.errors?.required ||
+                  (passwordConfirmation?.errors?.required &&
+                    (passwordConfirmation?.touched ||
+                      passwordConfirmation?.dirty))
+                "
+              >
+                Merci de remplir ces champs.
+              </p>
+              <p *ngIf="password?.errors?.pattern">
+                Merci de rentrer un mot de passe d'au moins 6 caractères.
+              </p>
+              <p *ngIf="signUpForm.errors?.NotSamePassword">
+                Les mots de passe ne correspondent pas.
+              </p>
+            </div>
+
+            <!--Btn-->
+            <button type="submit" class="btn btn-primary float-right">
+              S'inscrire
+            </button>
           </div>
-          
         </form>
 
         <p class="text-danger">
-           {{ errorMessage }}
+          {{ errorMessage }}
         </p>
       </div>
       <!--/card-block-->
