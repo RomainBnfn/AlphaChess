@@ -18,6 +18,8 @@
               formControlName="email"
               type="text"
               class="form-control rounded-0"
+              placeholder="name@email.fr"
+              autocomplete="off"
               required
             />
           </div>
@@ -30,11 +32,13 @@
               type="text"
               class="form-control rounded-0"
               autocomplete="none"
+              placeholder="name@email.fr"
+              autocomplete="off"
               required
             />
           </div>
           <!--Message Erreur Email-->
-          <div
+          <ul
             *ngIf="
               (email?.invalid && (email?.dirty || email?.touched)) ||
               (emailConfirmation?.invalid &&
@@ -44,7 +48,7 @@
             "
             class="alert alert-danger"
           >
-            <p
+            <li
               *ngIf="
                 email?.errors?.required ||
                 (emailConfirmation?.errors?.required &&
@@ -52,12 +56,12 @@
               "
             >
               Merci de remplir ces champs.
-            </p>
-            <p *ngIf="email?.errors?.email">Merci de saisir un mail valide.</p>
-            <p *ngIf="signUpForm.errors?.NotSameEmail">
+        </li>
+            <li *ngIf="email?.errors?.email">Merci de saisir un mail valide.</li>
+            <li *ngIf="signUpForm.errors?.NotSameEmail">
               Les emails ne correspondent pas.
-            </p>
-          </div>
+            </li>
+          </ul>
 
           <br />
           <!--Password-->
@@ -88,7 +92,7 @@
             />
 
             <!--Message Erreur Password-->
-            <div
+            <ul
               *ngIf="
                 (password?.invalid && (password?.dirty || password?.touched)) ||
                 (passwordConfirmation?.invalid &&
@@ -100,7 +104,7 @@
               "
               class="alert alert-danger"
             >
-              <p
+              <li
                 *ngIf="
                   password?.errors?.required ||
                   (passwordConfirmation?.errors?.required &&
@@ -109,14 +113,14 @@
                 "
               >
                 Merci de remplir ces champs.
-              </p>
-              <p *ngIf="password?.errors?.pattern">
+          </li>
+              <li *ngIf="password?.errors?.pattern">
                 Merci de rentrer un mot de passe d'au moins 6 caractères.
-              </p>
-              <p *ngIf="signUpForm.errors?.NotSamePassword">
+              </li>
+              <li *ngIf="signUpForm.errors?.NotSamePassword">
                 Les mots de passe ne correspondent pas.
-              </p>
-            </div>
+              </li>
+            </ul>
 
             <!--Btn-->
             <button type="submit" class="btn btn-primary float-right">

@@ -8,39 +8,64 @@
       </div>
       <!--Body-->
       <div class="card-body">
-        <form class="form">
-          <!--Login-->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
+          <!--Email-->
           <div class="form-group">
-            <label for="">Identifiant</label>
+            <label for="email">E-Mail</label>
             <input
-              [(ngModel)]="userLoginData.login"
-              name="login"
+              name="email"
+              id="email"
+              formControlName="email"
               type="text"
               class="form-control rounded-0"
+              placeholder="name@email.fr"
+              autocomplete="off"
               required
             />
           </div>
+          <!--Message Erreur Email-->
+          <ul      
+            *ngIf="
+              (email?.invalid && (email?.dirty || email?.touched)) "
+            class="alert alert-danger"
+          >
+            <li *ngIf="email?.errors?.required">Ce champ est obligatoire.</li>
+            <li *ngIf="email?.errors?.email">Le mail rentré n'est pas valide.</li>
+        </ul>
+
           <br />
           <!--Password-->
           <div class="form-group">
-            <label for="">Mot de passe</label>
+            <label for="password">Mot de passe</label>
             <input
-              [(ngModel)]="userLoginData.password"
               name="password"
+              id="password"
+              formControlName="password"
               type="password"
               class="form-control rounded-0"
+              placeholder="******"
+              autocomplete="off"
               required
             />
           </div>
-          <!--Btn-->
-          <button
-            (click)="OnClickOnLogin()"
-            type="button"
-            class="btn btn-success float-right"
-          >
-            Se connecter
-          </button>
+
+            <!--Message Erreur Password-->
+            <ul
+              *ngIf="(password?.errors?.required && (password?.dirty || password?.touched))"
+              class="alert alert-danger"
+            >
+              <li>Ce champ est obligatoire.</li>
+        </ul>
+
+            <!--Btn-->
+            <button type="submit" class="btn btn-primary float-right">
+              Connexion
+            </button>
         </form>
+
+        <p class="text-danger">
+          {{ errorMessage }}
+        </p>
       </div>
       <!--/card-block-->
     </div>
