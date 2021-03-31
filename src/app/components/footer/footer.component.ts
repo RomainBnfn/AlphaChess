@@ -6,34 +6,29 @@ import 'firebase/auth';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+  styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent implements OnInit {
+  isAuth: boolean;
 
-  isAuth : boolean;
-
-  constructor(
-    private _authService : AuthService,
-    private _router : Router
-  ) { 
+  constructor(private _authService: AuthService, private _router: Router) {
     this.isAuth = false;
-    firebase.auth().onAuthStateChanged(
-      (user) => {
-        this.isAuth = (user)? true : false;
-      }
-    )
+    firebase.auth().onAuthStateChanged((user) => {
+      this.isAuth = user ? true : false;
+    });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  onSignOut= () => {
+  onSignOut = () => {
     this._authService.signOut();
     this._router.navigate(['']);
-  }
+  };
 
+  getRouter() {
+    return this._router;
+  }
 }
