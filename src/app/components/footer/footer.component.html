@@ -38,5 +38,9 @@
         ></app-icon-button
       ></a>
     </li>
+
+    <li *ngIf="isAuth">
+      <button (click)="disconnect()">Déconnecter</button>
+    </li>
   </ul>
 </nav>

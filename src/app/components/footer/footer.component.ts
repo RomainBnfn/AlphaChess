@@ -31,4 +31,8 @@ export class FooterComponent implements OnInit {
   getRouter() {
     return this._router;
   }
+
+  disconnect() {
+    this._authService.signOut();
+  }
 }
