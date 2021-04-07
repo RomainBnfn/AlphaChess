@@ -15,6 +15,9 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ChessPlateComponent } from './components/chess-plate/chess-plate.component';
+import { ChessPawnComponent } from './components/chess-pawn/chess-pawn.component';
+import { ChessPlateCaseComponent } from './components/chess-plate-case/chess-plate-case.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,9 @@ import { FooterComponent } from './components/footer/footer.component';
     RegisterComponent,
     RegisterFormComponent,
     FooterComponent,
+    ChessPlateComponent,
+    ChessPawnComponent,
+    ChessPlateCaseComponent,
   ],
   imports: [
     BrowserModule,
