@@ -56,8 +56,10 @@
               "
             >
               Merci de remplir ces champs.
-        </li>
-            <li *ngIf="email?.errors?.email">Merci de saisir un mail valide.</li>
+            </li>
+            <li *ngIf="email?.errors?.email">
+              Merci de saisir un mail valide.
+            </li>
             <li *ngIf="signUpForm.errors?.NotSameEmail">
               Les emails ne correspondent pas.
             </li>
@@ -113,7 +115,7 @@
                 "
               >
                 Merci de remplir ces champs.
-          </li>
+              </li>
               <li *ngIf="password?.errors?.pattern">
                 Merci de rentrer un mot de passe d'au moins 6 caractères.
               </li>

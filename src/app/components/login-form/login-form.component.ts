@@ -4,6 +4,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import 'sweetalert2/src/sweetalert2.scss';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
@@ -46,6 +49,11 @@ export class LoginFormComponent implements OnInit {
       })
       .then(
         () => {
+          Swal.fire(
+            'Connexion effectuée',
+            'Vous êtes connecté, vous pouvez accéder au jeu.',
+            'success'
+          );
           this._router.navigate(['/']);
         },
         (error: string) => {

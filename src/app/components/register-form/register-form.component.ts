@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { SamePasswordValidator } from 'src/app/helpers/validators/SamePasswordValidator';
 import { SameEmailValidator } from 'src/app/helpers/validators/SameEmailValidator';
 
+import 'sweetalert2/src/sweetalert2.scss';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-register-form',
   templateUrl: './register-form.component.html',
@@ -64,6 +67,11 @@ export class RegisterFormComponent implements OnInit {
       })
       .then(
         () => {
+          Swal.fire(
+            'Inscription réussite',
+            'Vous êtes désormais inscrit sur AlphaChess.',
+            'success'
+          );
           this._router.navigate(['/']);
         },
         (error: string) => {

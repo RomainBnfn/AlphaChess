@@ -14,11 +14,16 @@
       des égnimes générées pour vous !
     </p>
     <hr />
-    <a routerLink="/login" class="mx-auto">
-      <button type="button" class="btn btn-outline-primary">Se connecter</button>
+    <a *ngIf="!isAuth" routerLink="/login" class="mx-auto">
+      <button type="button" class="btn btn-outline-primary">
+        Se connecter
+      </button>
     </a>
-    <a routerLink="/register" class="mx-auto">
-      <button type="button" class="btn btn-primary">S'inscrire</button>
+    <a *ngIf="!isAuth" routerLink="/register" class="mx-auto">
+      <button type="button" class="btn btn-outline-primary">S'inscrire</button>
+    </a>
+    <a *ngIf="isAuth" routerLink="/play" class="mx-auto">
+      <button type="button" class="btn btn-outline-primary">Jouer</button>
     </a>
   </div>
 </div>

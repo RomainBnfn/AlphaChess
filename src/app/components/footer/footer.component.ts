@@ -20,7 +20,7 @@ export class FooterComponent implements OnInit {
       this.isAuth = user ? true : false;
     });
   }
-
+  //  this.getRouter().url == '/register'
   ngOnInit(): void {}
 
   onSignOut = () => {

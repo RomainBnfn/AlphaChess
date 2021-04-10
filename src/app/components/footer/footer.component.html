@@ -30,7 +30,7 @@
       ></a>
     </li>
 
-    <li *ngIf="isAuth && this.getRouter().url == '/register'">
+    <li *ngIf="isAuth">
       <a class="navbar-brand" routerLink="/play"
         ><app-icon-button
           text="Jouer"

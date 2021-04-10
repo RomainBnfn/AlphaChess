@@ -7,6 +7,7 @@ import { from } from 'rxjs';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
+import { PlayComponent } from './pages/play/play.component';
 import { IconButtonComponent } from './components/icon-button/icon-button.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { AuthService } from './services/auth.service';
@@ -16,13 +17,13 @@ import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ChessPlateComponent } from './components/chess-plate/chess-plate.component';
-import { ChessPawnComponent } from './components/chess-pawn/chess-pawn.component';
-import { ChessPlateCaseComponent } from './components/chess-plate-case/chess-plate-case.component';
+import { ChessPieceComponent } from './components/chess-piece/chess-piece.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    PlayComponent,
     IconButtonComponent,
 
     LoginComponent,
@@ -32,8 +33,7 @@ import { ChessPlateCaseComponent } from './components/chess-plate-case/chess-pla
     RegisterFormComponent,
     FooterComponent,
     ChessPlateComponent,
-    ChessPawnComponent,
-    ChessPlateCaseComponent,
+    ChessPieceComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,9 +42,7 @@ import { ChessPlateCaseComponent } from './components/chess-plate-case/chess-pla
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [
-    AuthService,
-  ],
+  providers: [AuthService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
