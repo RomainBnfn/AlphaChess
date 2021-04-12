@@ -16,6 +16,9 @@ export class ChessPieceComponent implements OnInit {
   ngOnInit(): void {}
 
   svgUrl(): string {
+    if (typeof this.piece == 'undefined') {
+      return '';
+    }
     return (
       '../../../assets/images/chessPack/' +
       this.piece?.color +

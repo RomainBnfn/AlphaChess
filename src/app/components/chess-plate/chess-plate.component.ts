@@ -14,6 +14,11 @@ export class ChessPlateComponent implements OnInit {
   constructor() {
     this.chessPlate = new ChessPlate();
   }
+  drop(event: any) {
+    console.log(event);
+    console.log('x: ');
+    console.log('y: ');
+  }
 
   ngOnInit(): void {}
 

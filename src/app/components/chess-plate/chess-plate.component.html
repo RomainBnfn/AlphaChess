@@ -1,9 +1,9 @@
 <div class="container plateContainer">
   <div *ngFor="let i of [7, 6, 5, 4, 3, 2, 1, 0]" class="row align-items-start">
-    <div class="col">
-      <span>{{ i + 1 }}</span>
-    </div>
     <div
+      [id]="i + '-' + j"
+      (x)="(i)"
+      (y)="(j)"
       *ngFor="let j of [0, 1, 2, 3, 4, 5, 6, 7]"
       [ngClass]="[(i + j) % 2 == 0 ? 'black' : 'white']"
       class="col case d-flex align-self-stretch align-items-stretch align-content-stretch"
@@ -11,7 +11,11 @@
       <app-chess-piece
         (click)="clicked(getPiece(i, j))"
         [piece]="getPiece(i, j)"
-      >
+        (cdkDragStarted)="drop($event)"
+        (cdkDragEnded)="drop($event)"
+        cdkDragBoundary=".plateContainer"
+        cdkDrag
+        ><!-- (cdkDragMoved)="drop($event)" -->
       </app-chess-piece>
     </div>
   </div>

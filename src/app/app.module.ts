@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { from } from 'rxjs';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -41,6 +41,7 @@ import { ChessPieceComponent } from './components/chess-piece/chess-piece.compon
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    DragDropModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
