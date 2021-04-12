@@ -1,13 +1,18 @@
 import { ChessPiece } from './chess-piece';
 import ChessPieceCategorie from '../enums/chess-piece-categorie';
 import ChessPieceColor from '../enums/chess-piece-color';
+import Position from './position';
 
 export class ChessPlate {
-  plate: ChessPiece[][];
+  private plate: (ChessPiece | undefined)[][];
 
   constructor() {
     this.plate = [];
     this.initialisePlate();
+  }
+
+  public getPiece(x: number, y: number) {
+    return this.plate[x][y];
   }
 
   private initialisePlate() {
@@ -95,7 +100,7 @@ export class ChessPlate {
             i,
             7,
             ChessPieceColor.black,
-            ChessPieceCategorie.king
+            ChessPieceCategorie.queen
           );
           break;
         //#endregion
@@ -111,7 +116,7 @@ export class ChessPlate {
             i,
             7,
             ChessPieceColor.black,
-            ChessPieceCategorie.queen
+            ChessPieceCategorie.king
           );
           break;
         //#endregion
@@ -124,5 +129,12 @@ export class ChessPlate {
 
   public getPlate() {
     return this.plate;
+  }
+
+  public movePiece(piece: ChessPiece, position: Position) {
+    let oldPos = piece.position;
+    this.plate[oldPos.x][oldPos.y] = undefined;
+    this.plate[position.x][position.y] = piece;
+    piece.position = position;
   }
 }

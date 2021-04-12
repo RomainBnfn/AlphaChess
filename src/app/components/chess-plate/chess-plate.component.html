@@ -1,12 +1,18 @@
-<app-chess-piece
-  color="white"
-  categorie="pawn"
-  [x]="1"
-  [y]="1"
-></app-chess-piece>
-<app-chess-piece
-  color="black"
-  categorie="rook"
-  [x]="1"
-  [y]="1"
-></app-chess-piece>
+<div class="container plateContainer">
+  <div *ngFor="let i of [7, 6, 5, 4, 3, 2, 1, 0]" class="row align-items-start">
+    <div class="col">
+      <span>{{ i + 1 }}</span>
+    </div>
+    <div
+      *ngFor="let j of [0, 1, 2, 3, 4, 5, 6, 7]"
+      [ngClass]="[(i + j) % 2 == 0 ? 'black' : 'white']"
+      class="col case d-flex align-self-stretch align-items-stretch align-content-stretch"
+    >
+      <app-chess-piece
+        (click)="clicked(getPiece(i, j))"
+        [piece]="getPiece(i, j)"
+      >
+      </app-chess-piece>
+    </div>
+  </div>
+</div>

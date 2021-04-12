@@ -1,7 +1,4 @@
-interface Position {
-  x: number;
-  y: number;
-}
+import Position from './position';
 
 export class ChessPiece {
   position: Position;
