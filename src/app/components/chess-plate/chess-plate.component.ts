@@ -10,14 +10,12 @@ import Position from './../../helpers/models/position';
 })
 export class ChessPlateComponent implements OnInit {
   private chessPlate: ChessPlate;
+  selectedPiece: ChessPiece | undefined;
+  potentialMoves: Position[];
 
   constructor() {
     this.chessPlate = new ChessPlate();
-  }
-  drop(event: any) {
-    console.log(event);
-    console.log('x: ');
-    console.log('y: ');
+    this.potentialMoves = [];
   }
 
   ngOnInit(): void {}
@@ -25,37 +23,34 @@ export class ChessPlateComponent implements OnInit {
   getPiece(x: number, y: number) {
     return this.chessPlate.getPiece(x, y);
   }
-  range(start: number, stop: number | undefined, step: number | undefined) {
-    if (typeof stop == 'undefined') {
-      // one param defined
-      stop = start;
-      start = 0;
-    }
-
-    if (typeof step == 'undefined') {
-      step = 1;
-    }
-
-    if ((step > 0 && start >= stop) || (step < 0 && start <= stop)) {
-      return [];
-    }
-
-    var result = [];
-    for (var i = start; step > 0 ? i < stop : i > stop; i += step) {
-      result.push(i);
-    }
-
-    return result;
-  }
 
   movePiece(piece: ChessPiece, position: Position) {
     this.chessPlate.movePiece(piece, position);
   }
 
-  clicked(piece: ChessPiece | undefined) {
-    if (typeof piece == 'undefined') {
+  clickOnCase(x: number, y: number) {
+    if (this.selectedPiece) {
+      if (this.estPotentielMove(x, y)) {
+        this.movePiece(this.selectedPiece, { x: x, y: y });
+      }
+      this.selectedPiece = undefined;
+      this.potentialMoves = [];
       return;
     }
-    this.movePiece(piece, { x: piece.position.x, y: piece.position.y + 1 });
+    this.selectedPiece =
+      this.selectedPiece == this.getPiece(x, y)
+        ? undefined
+        : this.getPiece(x, y);
+
+    this.potentialMoves = [];
+    if (this.selectedPiece) {
+      this.potentialMoves = this.selectedPiece.getMovablePositions(
+        this.chessPlate
+      );
+    }
+  }
+
+  estPotentielMove(x: number, y: number) {
+    return this.potentialMoves.some((e) => e.x == x && e.y == y);
   }
 }

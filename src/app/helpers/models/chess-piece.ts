@@ -1,4 +1,5 @@
 import Position from './position';
+import { ChessPlate } from './chess-plate';
 
 export class ChessPiece {
   position: Position;
@@ -17,29 +18,53 @@ export class ChessPiece {
     return true;
   }
 
-  public getMovablePosition(x: number, y: number) {}
+  public getMovablePositions(plate: ChessPlate): Position[] {
+    let movablePositions = [];
+    let movablesBranches = this.getPotentialMovableBranches(plate);
+    for (let i = 0; i < movablesBranches.length; i++) {
+      for (let j = 0; j < movablesBranches[i].length; j++) {
+        let x = movablesBranches[i][j].x;
+        let y = movablesBranches[i][j].y;
+        let piece = plate.getPiece(x, y);
+        if (piece) {
+          if (piece.color != this.color && this.categorie != 'pawn') {
+            // & roi alors que la pièce est protégée.
+            movablePositions.push(movablesBranches[i][j]);
+          }
+          break;
+        } else {
+          movablePositions.push(movablesBranches[i][j]);
+        }
+      }
+    }
+    return movablePositions;
+  }
 
   /**
    * @returns
    */
-  public getPotentialMovableBranches() {
+  private getPotentialMovableBranches(plate: ChessPlate) {
     let branches: Position[][] = [];
     let pos: Position;
     switch (this.categorie) {
       //#region Pawn
       case 'pawn':
+        let side = 0;
         if (this.color == 'white') {
+          side = 1;
           pos = { x: this.position.x, y: this.position.y + 1 };
           if (this.isInPlatePosition(pos)) {
             branches.push([pos]);
           }
-          if (this.position.y == 2) {
+          if (this.position.y == 1) {
             pos = { x: this.position.x, y: this.position.y + 2 };
             if (this.isInPlatePosition(pos)) {
-              branches.push([pos]);
+              branches[0].push(pos);
             }
           }
         } else {
+          // Black
+          side = -1;
           pos = { x: this.position.x, y: this.position.y - 1 };
           if (this.isInPlatePosition(pos)) {
             branches.push([pos]);
@@ -47,9 +72,19 @@ export class ChessPiece {
           if (this.position.y == 6) {
             pos = { x: this.position.x, y: this.position.y - 2 };
             if (this.isInPlatePosition(pos)) {
-              branches.push([pos]);
+              branches[0].push(pos);
             }
           }
+        }
+        if (plate.getPiece(this.position.x - 1, this.position.y + side)) {
+          branches.push([
+            { x: this.position.x - 1, y: this.position.y + side },
+          ]);
+        }
+        if (plate.getPiece(this.position.x + 1, this.position.y + side)) {
+          branches.push([
+            { x: this.position.x + 1, y: this.position.y + side },
+          ]);
         }
         break;
       //#endregion
@@ -104,7 +139,7 @@ export class ChessPiece {
         if (this.isInPlatePosition(pos)) {
           branches.push([pos]);
         }
-        pos = { x: this.position.x + 1, y: this.position.y };
+        pos = { x: this.position.x - 1, y: this.position.y };
         if (this.isInPlatePosition(pos)) {
           branches.push([pos]);
         }
@@ -127,7 +162,7 @@ export class ChessPiece {
 
   private stepBranchOperator(op: Function, branches: Position[][]) {
     let branche: Position[] = [];
-    for (let i = 1; i < 7; i++) {
+    for (let i = 1; i < 8; i++) {
       let pos = op(i);
       if (!this.isInPlatePosition(pos)) {
         break;

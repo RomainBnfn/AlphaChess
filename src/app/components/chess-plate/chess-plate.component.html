@@ -6,15 +6,14 @@
       (y)="(j)"
       *ngFor="let j of [0, 1, 2, 3, 4, 5, 6, 7]"
       [ngClass]="[(i + j) % 2 == 0 ? 'black' : 'white']"
+      [class.selected]="
+        this.selectedPiece == getPiece(i, j) && this.selectedPiece
+      "
+      [class.potentialMove]="this.estPotentielMove(i, j)"
       class="col case d-flex align-self-stretch align-items-stretch align-content-stretch"
+      (click)="clickOnCase(i, j)"
     >
-      <app-chess-piece
-        (click)="clicked(getPiece(i, j))"
-        [piece]="getPiece(i, j)"
-        (cdkDragStarted)="drop($event)"
-        (cdkDragEnded)="drop($event)"
-        cdkDragBoundary=".plateContainer"
-        cdkDrag
+      <app-chess-piece [piece]="getPiece(i, j)"
         ><!-- (cdkDragMoved)="drop($event)" -->
       </app-chess-piece>
     </div>
