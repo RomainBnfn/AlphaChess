@@ -18,6 +18,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ChessPlateComponent } from './components/chess-plate/chess-plate.component';
 import { ChessPieceComponent } from './components/chess-piece/chess-piece.component';
+import { SocketIoService } from './services/socket-io.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { ChessPieceComponent } from './components/chess-piece/chess-piece.compon
     ReactiveFormsModule,
     DragDropModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, SocketIoService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

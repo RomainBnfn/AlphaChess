@@ -16,6 +16,7 @@ export class AppComponent {
   title = 'AlphaChess';
 
   constructor() {
+    //#region Firebase
     var firebaseConfig = {
       apiKey: 'AIzaSyCWnTQVjH88IuDEQHia3Ybdxm5qedelrGE',
       authDomain: 'alphachess-8211b.firebaseapp.com',
@@ -28,5 +29,8 @@ export class AppComponent {
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
+    //#endregion
   }
+
+  ngOnInit(): void {}
 }
