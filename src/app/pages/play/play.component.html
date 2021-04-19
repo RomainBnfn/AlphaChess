@@ -1,5 +1,13 @@
 <div class="page-container container-fluid">
-  <app-chess-plate></app-chess-plate>
+  <div *ngIf="!connected" class="divConnexion">
+    <h1>Connexion au serveur . . .</h1>
+  </div>
 
-  <button (click)="btnClicked()">Btn</button>
+  <app-pseudo-form *ngIf="connected && !hasPseudo"></app-pseudo-form>
+  <p>Pseudo : {{ pseudo }}</p>
+
+  <button (click)="cli()">Blick me</button>
+
+  <app-chess-plate *ngIf="false"></app-chess-plate>
 </div>
+<ngx-spinner *ngIf="!connected" type="ball-atom" size="medium"></ngx-spinner>

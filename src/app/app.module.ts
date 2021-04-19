@@ -19,6 +19,10 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ChessPlateComponent } from './components/chess-plate/chess-plate.component';
 import { ChessPieceComponent } from './components/chess-piece/chess-piece.component';
 import { SocketIoService } from './services/socket-io.service';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PseudoFormComponent } from './components/pseudo-form/pseudo-form.component';
+import { ChessGameService } from './services/chess-game.service';
 
 @NgModule({
   declarations: [
@@ -35,6 +39,7 @@ import { SocketIoService } from './services/socket-io.service';
     FooterComponent,
     ChessPlateComponent,
     ChessPieceComponent,
+    PseudoFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,8 +48,10 @@ import { SocketIoService } from './services/socket-io.service';
     FormsModule,
     ReactiveFormsModule,
     DragDropModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule,
   ],
-  providers: [AuthService, SocketIoService],
+  providers: [AuthService, SocketIoService, ChessGameService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

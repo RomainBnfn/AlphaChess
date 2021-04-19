@@ -8,9 +8,14 @@ import { Observable } from 'rxjs';
 })
 export class SocketIoService {
   socket: Socket;
+  public isConnected: boolean;
 
   constructor() {
     this.socket = io(environment.ws_url);
+    this.isConnected = false;
+    this.listen('connected').subscribe((data) => {
+      this.isConnected = true;
+    });
   }
 
   listen(eventName: string) {
@@ -21,5 +26,7 @@ export class SocketIoService {
     });
   }
 
-  emit() {}
+  emit(eventName: string, data: any) {
+    this.socket.emit(eventName, data);
+  }
 }
