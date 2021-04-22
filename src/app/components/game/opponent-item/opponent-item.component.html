@@ -1,0 +1,23 @@
+<div class="card bg-light mb-3" style="max-width: 18rem">
+  <div class="card-header">
+    <h5 class="card-title">{{ pseudo }}</h5>
+  </div>
+  <div class="card-body">
+    <div *ngIf="isMe">
+      <p>C'est vous !</p>
+    </div>
+    <div *ngIf="!isDueled && !isMe">
+      <button
+        type="button"
+        (click)="defier()"
+        class="btn btn-lg btn-primary"
+        [disabled]="isMe"
+      >
+        Défier
+      </button>
+    </div>
+    <div *ngIf="isDueled">
+      <p>En attente...</p>
+    </div>
+  </div>
+</div>

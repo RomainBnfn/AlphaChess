@@ -1,0 +1,51 @@
+<nav class="navbar fixed-bottom">
+  <!--<p>  Ok le .url donne des "/login" 
+    {{ this.getRouter().url }}
+  </p>-->
+  <ul class="navbar mx-auto">
+    <li>
+      <a class="navbar-brand" routerLink="/">
+        <app-icon-button
+          text="Accueil"
+          imageSrc="../../../assets/images/home.png"
+        ></app-icon-button
+      ></a>
+    </li>
+
+    <li *ngIf="!isAuth">
+      <a class="navbar-brand" routerLink="/login"
+        ><app-icon-button
+          text="Se connecter"
+          imageSrc="../../../assets/images/login.png"
+        ></app-icon-button
+      ></a>
+    </li>
+
+    <li *ngIf="!isAuth">
+      <a class="navbar-brand" routerLink="/register"
+        ><app-icon-button
+          text="S'inscrire"
+          imageSrc="../../../assets/images/register.png"
+        ></app-icon-button
+      ></a>
+    </li>
+
+    <li *ngIf="isAuth">
+      <a class="navbar-brand" routerLink="/play"
+        ><app-icon-button
+          text="Jouer"
+          imageSrc="../../../assets/images/controller.png"
+        ></app-icon-button
+      ></a>
+    </li>
+
+    <li *ngIf="isAuth">
+      <a (click)="disconnect()" class="navbar-brand">
+        <app-icon-button
+          text="Déconnexion"
+          imageSrc="../../../assets/images/logout.svg"
+        ></app-icon-button>
+      </a>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,140 @@
+<div class="row col-md-6 col-lg-5 col-xl-4 mx-auto">
+  <!--card-block-->
+  <div class="card rounded-0">
+    <!--Header-->
+    <div class="card-header">
+      <h3 class="mb-0">Inscription</h3>
+    </div>
+    <!--Body-->
+    <div class="card-body">
+      <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="form">
+        <!--Email-->
+        <div class="form-group">
+          <label for="email">E-Mail</label>
+          <input
+            name="email"
+            id="email"
+            formControlName="email"
+            type="text"
+            class="form-control rounded-0"
+            placeholder="name@email.fr"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="emailConformation">Confirmez l'email</label>
+          <input
+            name="emailConfirmation"
+            id="emailConfirmation"
+            formControlName="emailConfirmation"
+            type="text"
+            class="form-control rounded-0"
+            autocomplete="none"
+            placeholder="name@email.fr"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <!--Message Erreur Email-->
+        <ul
+          *ngIf="
+            (email?.invalid && (email?.dirty || email?.touched)) ||
+            (emailConfirmation?.invalid &&
+              (emailConfirmation?.dirty || emailConfirmation?.touched)) ||
+            (signUpForm.errors?.NotSameEmail &&
+              (emailConfirmation?.touched || emailConfirmation?.dirty))
+          "
+          class="alert alert-danger"
+        >
+          <li
+            *ngIf="
+              email?.errors?.required ||
+              (emailConfirmation?.errors?.required &&
+                (emailConfirmation?.dirty || emailConfirmation?.touched))
+            "
+          >
+            Merci de remplir ces champs.
+          </li>
+          <li *ngIf="email?.errors?.email">Merci de saisir un mail valide.</li>
+          <li *ngIf="signUpForm.errors?.NotSameEmail">
+            Les emails ne correspondent pas.
+          </li>
+        </ul>
+
+        <br />
+        <!--Password-->
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <input
+            name="password"
+            id="password"
+            formControlName="password"
+            type="password"
+            class="form-control rounded-0"
+            placeholder="******"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="passwordConfirmation">Confirmez le mot de passe</label>
+          <input
+            name="passwordConfirmation"
+            id="passwordConfirmation"
+            formControlName="passwordConfirmation"
+            type="password"
+            class="form-control rounded-0"
+            placeholder="******"
+            autocomplete="off"
+            required
+          />
+
+          <!--Message Erreur Password-->
+          <ul
+            *ngIf="
+              (password?.invalid && (password?.dirty || password?.touched)) ||
+              (passwordConfirmation?.invalid &&
+                (passwordConfirmation?.dirty ||
+                  passwordConfirmation?.touched)) ||
+              (signUpForm.errors?.NotSamePassword &&
+                (passwordConfirmation?.touched || passwordConfirmation?.dirty))
+            "
+            class="alert alert-danger"
+          >
+            <li
+              *ngIf="
+                password?.errors?.required ||
+                (passwordConfirmation?.errors?.required &&
+                  (passwordConfirmation?.touched ||
+                    passwordConfirmation?.dirty))
+              "
+            >
+              Merci de remplir ces champs.
+            </li>
+            <li *ngIf="password?.errors?.pattern">
+              Merci de rentrer un mot de passe d'au moins 6 caractères.
+            </li>
+            <li *ngIf="signUpForm.errors?.NotSamePassword">
+              Les mots de passe ne correspondent pas.
+            </li>
+          </ul>
+
+          <!--Btn-->
+          <button
+            type="submit"
+            class="btn btn-primary float-right"
+            [disabled]="this.signUpForm.invalid"
+          >
+            S'inscrire
+          </button>
+        </div>
+      </form>
+
+      <p class="text-danger">
+        {{ errorMessage }}
+      </p>
+    </div>
+    <!--/card-block-->
+  </div>
+</div>

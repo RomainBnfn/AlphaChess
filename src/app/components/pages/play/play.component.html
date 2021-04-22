@@ -1,0 +1,49 @@
+<div class="page-container container-fluid">
+  <div *ngIf="connected">
+    <!-- N'a pas de pseudo -->
+    <div *ngIf="!hasPseudo" class="col-md-8 col-lg-6 mx-auto">
+      <h2 class="display-5">Vous n'avez pas de pseudo !</h2>
+      <p id="first-paraph">
+        Afin que les autres joueurs puissent vous identifier, choisissez en un !
+      </p>
+      <app-pseudo-form
+        (formCompleted)="onPseudoChoosen($event)"
+      ></app-pseudo-form>
+    </div>
+    <!-- A un pseudo -->
+    <div *ngIf="hasPseudo">
+      <!-- Choix d'adversaire -->
+      <div *ngIf="!isInGame">
+        <app-duel-list></app-duel-list>
+        <app-opponent-list></app-opponent-list>
+      </div>
+      <app-chess-plate
+        *ngIf="isInGame"
+        [disabled]="!isMyTurn"
+        [chessPlate]="chessPlate"
+        [team]="team"
+        (onPieceMove)="onPieceMove($event.piece, $event.position)"
+      ></app-chess-plate>
+    </div>
+  </div>
+
+  <!-- Spinner -->
+
+  <ngx-spinner
+    [fullScreen]="false"
+    *ngIf="!connected"
+    type="ball-atom"
+    size="medium"
+  >
+    <h2 class="loading" style="padding-top: 30%">
+      Nous tentons de nous connecter au serveur...
+    </h2>
+    <br />
+    <a class="navbar-brand" routerLink="/">
+      <app-icon-button
+        text="Retourner à l'accueil"
+        imageSrc="../../../assets/images/home.png"
+      ></app-icon-button
+    ></a>
+  </ngx-spinner>
+</div>

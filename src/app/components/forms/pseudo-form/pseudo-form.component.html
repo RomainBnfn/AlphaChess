@@ -1,0 +1,40 @@
+<form [formGroup]="pseudoForm" (ngSubmit)="onSubmit()">
+  <div class="row separated-row">
+    <div class="col">
+      <input
+        type="text"
+        name="pseudo"
+        class="form-control rounded-0"
+        id="pseudo"
+        aria-describedby="emailHelp"
+        placeholder="Entrez votre pseudo"
+        formControlName="pseudo"
+        autocomplete="off"
+        required
+      />
+    </div>
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="this.pseudoForm.invalid"
+      >
+        Valider
+      </button>
+    </div>
+  </div>
+  <ul
+    *ngIf="pseudoInput?.invalid && (pseudoInput?.touched || pseudoInput?.dirty)"
+    class="alert alert-danger"
+  >
+    <li *ngIf="pseudoInput?.errors?.required">Ce champ est obligatoire.</li>
+    <li *ngIf="pseudoInput?.errors?.pattern">
+      Un pseudo doit faire au moins 3 caractères, et doit être composé
+      uniquement de caractères alphanumériques.
+    </li>
+  </ul>
+  <p class="text-danger">
+    {{ errorMessage }}
+  </p>
+  <p><em>Choisissez bien ! Vous pouvez gagner +4 en charisme.</em></p>
+</form>

@@ -4,25 +4,38 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
-import { AppComponent } from './app.component';
-import { HomeComponent } from './pages/home/home.component';
-import { PlayComponent } from './pages/play/play.component';
-import { IconButtonComponent } from './components/icon-button/icon-button.component';
-import { RegisterFormComponent } from './components/register-form/register-form.component';
-import { AuthService } from './services/auth.service';
-
-import { LoginFormComponent } from './components/login-form/login-form.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { LoginComponent } from './pages/login/login.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { ChessPlateComponent } from './components/chess-plate/chess-plate.component';
-import { ChessPieceComponent } from './components/chess-piece/chess-piece.component';
-import { SocketIoService } from './services/socket-io.service';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PseudoFormComponent } from './components/pseudo-form/pseudo-form.component';
+import { PseudoFormComponent } from './components/forms/pseudo-form/pseudo-form.component';
+
+import { AppComponent } from './app.component';
+// pages
+import { HomeComponent } from './components/pages/home/home.component';
+import { PlayComponent } from './components/pages/play/play.component';
+import { RegisterComponent } from './components/pages/register/register.component';
+import { LoginComponent } from './components/pages/login/login.component';
+
+// game
+import { ChessPlateComponent } from './components/game/chess-plate/chess-plate.component';
+import { ChessPieceComponent } from './components/game/chess-piece/chess-piece.component';
+import { OpponentListComponent } from './components/game/opponent-list/opponent-list.component';
+import { OpponentItemComponent } from './components/game/opponent-item/opponent-item.component';
+
+// forms
+import { RegisterFormComponent } from './components/forms/register-form/register-form.component';
+import { LoginFormComponent } from './components/forms/login-form/login-form.component';
+
+// tools
+import { FooterComponent } from './components/tools/footer/footer.component';
+import { IconButtonComponent } from './components/tools/icon-button/icon-button.component';
+
+// services
+import { AuthService } from './services/auth.service';
+import { SocketIoService } from './services/socket-io.service';
 import { ChessGameService } from './services/chess-game.service';
+import { UserService } from './services/user.service';
+import { DuelListComponent } from './components/game/duel-list/duel-list.component';
+import { DuelItemComponent } from './components/game/duel-item/duel-item.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +45,7 @@ import { ChessGameService } from './services/chess-game.service';
     IconButtonComponent,
 
     LoginComponent,
+
     LoginFormComponent,
 
     RegisterComponent,
@@ -40,6 +54,10 @@ import { ChessGameService } from './services/chess-game.service';
     ChessPlateComponent,
     ChessPieceComponent,
     PseudoFormComponent,
+    OpponentListComponent,
+    OpponentItemComponent,
+    DuelListComponent,
+    DuelItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +69,7 @@ import { ChessGameService } from './services/chess-game.service';
     NgxSpinnerModule,
     BrowserAnimationsModule,
   ],
-  providers: [AuthService, SocketIoService, ChessGameService],
+  providers: [AuthService, SocketIoService, ChessGameService, UserService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

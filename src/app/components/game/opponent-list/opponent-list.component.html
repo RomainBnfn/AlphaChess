@@ -1,0 +1,9 @@
+<h1>Les joueurs en ligne</h1>
+<div class="card-deck card-columns">
+  <app-opponent-item
+    *ngFor="let opponent of this.opponents"
+    [opponent]="opponent"
+    [isDueled]="isInDuelSent(opponent)"
+    (demandeDuel)="demandeDuel($event, opponent)"
+  ></app-opponent-item>
+</div>

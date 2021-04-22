@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { FooterComponent } from './components/footer/footer.component';
-
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import firebase from 'firebase/app';
 import 'firebase/analytics';

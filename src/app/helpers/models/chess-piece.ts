@@ -14,144 +14,176 @@ export class ChessPiece {
     this.hasMooved = false;
   }
 
-  public canMove(x: number, y: number): boolean {
-    return true;
+  public moveTo(position: Position) {
+    this.hasMooved = true;
+    this.position.x = position.x;
+    this.position.y = position.y;
   }
 
   public getMovablePositions(plate: ChessPlate): Position[] {
-    let movablePositions = [];
-    let movablesBranches = this.getPotentialMovableBranches(plate);
-    for (let i = 0; i < movablesBranches.length; i++) {
-      for (let j = 0; j < movablesBranches[i].length; j++) {
-        let x = movablesBranches[i][j].x;
-        let y = movablesBranches[i][j].y;
-        let piece = plate.getPiece(x, y);
-        if (piece) {
-          if (piece.color != this.color && this.categorie != 'pawn') {
-            // & roi alors que la pièce est protégée.
-            movablePositions.push(movablesBranches[i][j]);
-          }
-          break;
-        } else {
-          movablePositions.push(movablesBranches[i][j]);
-        }
-      }
-    }
-    return movablePositions;
-  }
+    let lastPieceMoved = plate.getLastPieceMoved();
+    let movablePositions: Position[] = [];
 
-  /**
-   * @returns
-   */
-  private getPotentialMovableBranches(plate: ChessPlate) {
-    let branches: Position[][] = [];
     let pos: Position;
+    let potentialPos: Position[] = [];
     switch (this.categorie) {
       //#region Pawn
       case 'pawn':
-        let side = 0;
-        if (this.color == 'white') {
-          side = 1;
-          pos = { x: this.position.x, y: this.position.y + 1 };
-          if (this.isInPlatePosition(pos)) {
-            branches.push([pos]);
-          }
-          if (this.position.y == 1) {
-            pos = { x: this.position.x, y: this.position.y + 2 };
-            if (this.isInPlatePosition(pos)) {
-              branches[0].push(pos);
-            }
-          }
-        } else {
-          // Black
-          side = -1;
-          pos = { x: this.position.x, y: this.position.y - 1 };
-          if (this.isInPlatePosition(pos)) {
-            branches.push([pos]);
-          }
-          if (this.position.y == 6) {
-            pos = { x: this.position.x, y: this.position.y - 2 };
-            if (this.isInPlatePosition(pos)) {
-              branches[0].push(pos);
+        let direction = this.color == 'white' ? 1 : -1;
+        // pos devant lui
+        pos = { x: this.position.x, y: this.position.y + direction };
+        // Si il y a personne devant lui
+        if (!plate.isPieceAtPos(pos) && this.isInPlatePosition(pos)) {
+          movablePositions.push(pos);
+          // Encore au début
+          if (
+            (this.color == 'white' && this.position.y == 1) ||
+            (this.color == 'black' && this.position.y == 6)
+          ) {
+            pos = { x: this.position.x, y: this.position.y + 2 * direction };
+            if (!plate.isPieceAtPos(pos)) {
+              movablePositions.push(pos);
             }
           }
         }
-        if (plate.getPiece(this.position.x - 1, this.position.y + side)) {
-          branches.push([
-            { x: this.position.x - 1, y: this.position.y + side },
-          ]);
+        // S'il peut manger sur les côtées
+        pos = { x: this.position.x + 1, y: this.position.y + direction };
+        if (
+          this.isInPlatePosition(pos) &&
+          plate.isPieceAtPos(pos) &&
+          !plate.areSameTeam(this, pos)
+        ) {
+          movablePositions.push(pos);
         }
-        if (plate.getPiece(this.position.x + 1, this.position.y + side)) {
-          branches.push([
-            { x: this.position.x + 1, y: this.position.y + side },
-          ]);
+        pos = { x: this.position.x - 1, y: this.position.y + direction };
+        if (
+          this.isInPlatePosition(pos) &&
+          plate.isPieceAtPos(pos) &&
+          !plate.areSameTeam(this, pos)
+        ) {
+          movablePositions.push(pos);
         }
         break;
       //#endregion
       //#region Knight
       case 'knight':
         for (let i = -1; i <= 2; i += 2) {
-          pos = { x: this.position.x + 2, y: this.position.y + i };
-          if (this.isInPlatePosition(pos)) {
-            branches.push([pos]);
-          }
-          pos = { x: this.position.x - 2, y: this.position.y + i };
-          if (this.isInPlatePosition(pos)) {
-            branches.push([pos]);
-          }
-          pos = { x: this.position.x + i, y: this.position.y + 2 };
-          if (this.isInPlatePosition(pos)) {
-            branches.push([pos]);
-          }
-          pos = { x: this.position.x + i, y: this.position.y - 2 };
-          if (this.isInPlatePosition(pos)) {
-            branches.push([pos]);
-          }
+          potentialPos = [];
+          potentialPos.push({ x: this.position.x + 2, y: this.position.y + i });
+          potentialPos.push({ x: this.position.x - 2, y: this.position.y + i });
+          potentialPos.push({ x: this.position.x + i, y: this.position.y + 2 });
+          potentialPos.push({ x: this.position.x + i, y: this.position.y - 2 });
+          potentialPos.forEach((pos: Position) => {
+            if (this.isInPlatePosition(pos) && !plate.areSameTeam(this, pos)) {
+              movablePositions.push(pos);
+            }
+          });
         }
         break;
       //#endregion
+      //#region Rook
       case 'rook':
-        branches = this.getStraightBranches(this.position.x, this.position.y);
+        this.getStraightBranches(this.position.x, this.position.y).forEach(
+          (branche: Position[]) => {
+            let _continue = true;
+            branche.forEach((pos: Position) => {
+              if (_continue) {
+                // On rencontre un allier
+                if (plate.areSameTeam(this, pos)) {
+                  _continue = false;
+                } else {
+                  movablePositions.push(pos);
+                  if (plate.isPieceAtPos(pos)) {
+                    _continue = false;
+                  }
+                }
+              }
+            });
+          }
+        );
         break;
+      //#endregion
+      //#region Bishop
       case 'bishop':
-        branches = this.getDiagonalBranches(this.position.x, this.position.y);
+        this.getDiagonalBranches(this.position.x, this.position.y).forEach(
+          (branche: Position[]) => {
+            let _continue = true;
+            branche.forEach((pos: Position) => {
+              if (_continue) {
+                // On rencontre un allier
+                if (plate.areSameTeam(this, pos)) {
+                  _continue = false;
+                } else {
+                  movablePositions.push(pos);
+                  if (plate.isPieceAtPos(pos)) {
+                    _continue = false;
+                  }
+                }
+              }
+            });
+          }
+        );
         break;
+      //#endregion
+      //#region Queen
       case 'queen':
-        branches = this.getDiagonalBranches(this.position.x, this.position.y);
-        this.getStraightBranches(
-          this.position.x,
-          this.position.y
-        ).forEach((branche) => branches.push(branche));
+        this.getDiagonalBranches(this.position.x, this.position.y).forEach(
+          (branche: Position[]) => {
+            let _continue = true;
+            branche.forEach((pos: Position) => {
+              if (_continue) {
+                // On rencontre un allier
+                if (plate.areSameTeam(this, pos)) {
+                  _continue = false;
+                } else {
+                  movablePositions.push(pos);
+                  if (plate.isPieceAtPos(pos)) {
+                    _continue = false;
+                  }
+                }
+              }
+            });
+          }
+        );
+        this.getStraightBranches(this.position.x, this.position.y).forEach(
+          (branche: Position[]) => {
+            let _continue = true;
+            branche.forEach((pos: Position) => {
+              if (_continue) {
+                // On rencontre un allier
+                if (plate.areSameTeam(this, pos)) {
+                  _continue = false;
+                } else {
+                  movablePositions.push(pos);
+                  if (plate.isPieceAtPos(pos)) {
+                    _continue = false;
+                  }
+                }
+              }
+            });
+          }
+        );
         break;
+      //#endregion
       //#region  King
       case 'king':
+        potentialPos = [];
         for (let i = -1; i <= 1; i++) {
-          pos = { x: this.position.x + i, y: this.position.y + 1 };
-          if (this.isInPlatePosition(pos)) {
-            branches.push([pos]);
+          potentialPos.push({ x: this.position.x + i, y: this.position.y + 1 });
+          potentialPos.push({ x: this.position.x + i, y: this.position.y - 1 });
+        }
+        potentialPos.push({ x: this.position.x + 1, y: this.position.y });
+        potentialPos.push({ x: this.position.x - 1, y: this.position.y });
+        potentialPos.forEach((pos: Position) => {
+          if (this.isInPlatePosition(pos) && !plate.areSameTeam(this, pos)) {
+            movablePositions.push(pos);
           }
-          pos = { x: this.position.x + i, y: this.position.y - 1 };
-          if (this.isInPlatePosition(pos)) {
-            branches.push([pos]);
-          }
-        }
-        pos = { x: this.position.x + 1, y: this.position.y };
-        if (this.isInPlatePosition(pos)) {
-          branches.push([pos]);
-        }
-        pos = { x: this.position.x - 1, y: this.position.y };
-        if (this.isInPlatePosition(pos)) {
-          branches.push([pos]);
-        }
+        });
+
         break;
       //#endregion
     }
-    for (let i = 0; i < branches.length; i++) {
-      branches[i] = branches[i].filter((position: { x: number; y: number }) =>
-        this.isInPlatePosition(position)
-      );
-    }
-    return branches;
+    return movablePositions;
   }
 
   private isInPlatePosition(position: Position): boolean {

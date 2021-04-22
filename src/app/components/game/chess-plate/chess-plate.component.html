@@ -1,0 +1,24 @@
+<div
+  [ngClass]="disabled ? 'disabledTurn' : 'actualTurn'"
+  class="container plateContainer"
+>
+  <div *ngFor="let j of yList" class="row align-items-start">
+    <div
+      [id]="i + '-' + j"
+      (x)="(i)"
+      (y)="(j)"
+      *ngFor="let i of [7, 6, 5, 4, 3, 2, 1, 0]"
+      [ngClass]="[(i + j) % 2 == 0 ? 'black' : 'white']"
+      [class.selected]="
+        this.selectedPiece == getPiece(i, j) && this.selectedPiece
+      "
+      [class.potentialMove]="this.estPotentielMove(i, j)"
+      class="col case d-flex align-self-stretch align-items-stretch align-content-stretch"
+      (click)="clickOnCase(i, j)"
+    >
+      <app-chess-piece [piece]="getPiece(i, j)"
+        ><!-- (cdkDragMoved)="drop($event)" -->
+      </app-chess-piece>
+    </div>
+  </div>
+</div>

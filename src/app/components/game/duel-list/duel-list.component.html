@@ -1,0 +1,10 @@
+<div *ngIf="duelsReceived.length > 0">
+  <h1>Vos demandes de duel</h1>
+  <div class="card-deck card-columns">
+    <app-duel-item
+      *ngFor="let duel of this.duelsReceived"
+      [duel]="duel"
+      (reponseDuel)="reponseDuel($event, duel)"
+    ></app-duel-item>
+  </div>
+</div>

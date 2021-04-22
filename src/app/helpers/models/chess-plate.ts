@@ -5,6 +5,7 @@ import Position from './position';
 
 export class ChessPlate {
   private plate: (ChessPiece | undefined)[][];
+  private lastPieceMoved: ChessPiece | undefined;
 
   constructor() {
     this.plate = [];
@@ -13,6 +14,10 @@ export class ChessPlate {
 
   public getPiece(x: number, y: number) {
     return this.plate[x][y];
+  }
+
+  public getLastPieceMoved() {
+    return this.lastPieceMoved;
   }
 
   private initialisePlate() {
@@ -127,14 +132,29 @@ export class ChessPlate {
     }
   }
 
+  public isPieceAtPos(pos: Position) {
+    return this.plate[pos.x][pos.y] != undefined;
+  }
+
   public getPlate() {
     return this.plate;
   }
 
+  public areSameTeam(pieceA: ChessPiece, pos: Position) {
+    let pieceB = this.getPiece(pos.x, pos.y);
+    if (pieceB == undefined) {
+      return false;
+    }
+    return pieceA.color == pieceB.color;
+  }
+
   public movePiece(piece: ChessPiece, position: Position) {
     let oldPos = piece.position;
+
     this.plate[oldPos.x][oldPos.y] = undefined;
     this.plate[position.x][position.y] = piece;
-    piece.position = position;
+    piece.moveTo(position);
+
+    this.lastPieceMoved = piece;
   }
 }

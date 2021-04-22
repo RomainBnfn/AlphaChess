@@ -3,18 +3,20 @@ import { environment } from '../../environments/environment';
 import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
 
+import firebase from 'firebase/app';
+import 'firebase/analytics';
+import 'firebase/auth';
+
 @Injectable({
   providedIn: 'root',
 })
 export class SocketIoService {
-  socket: Socket;
-  public isConnected: boolean;
+  socket: any;
 
   constructor() {
     this.socket = io(environment.ws_url);
-    this.isConnected = false;
-    this.listen('connected').subscribe((data) => {
-      this.isConnected = true;
+    this.listen('close').subscribe((_) => {
+      this.disconnect();
     });
   }
 
@@ -27,6 +29,15 @@ export class SocketIoService {
   }
 
   emit(eventName: string, data: any) {
+    data = { ...data, firebaseUID: firebase.auth().currentUser?.uid };
     this.socket.emit(eventName, data);
+  }
+
+  public get isConnected() {
+    return this.socket.connected;
+  }
+
+  disconnect() {
+    this.socket.disconnect();
   }
 }
