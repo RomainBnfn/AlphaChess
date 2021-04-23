@@ -2,17 +2,20 @@
   background-color: white;
 }
 .black {
-  background-color: rgb(49, 100, 93);
+  background-color: rgb(40, 80, 80);
 }
 .selected {
-  background-color: #73fff8;
+  background-color: #81e0db;
 }
 .potentialMove {
-  background-color: rgb(131, 62, 158) !important;
+  background-color: rgb(135, 73, 160) !important;
 }
 .case {
-  padding: 10px;
-  height: width;
+  display: flex;
+  padding: 2px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
 }
 .disabledTurn {
   cursor: not-allowed;

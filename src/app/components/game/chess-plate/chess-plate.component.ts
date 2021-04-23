@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+} from '@angular/core';
 import { ChessPlate } from 'src/app/helpers/models/chess-plate';
 import { ChessPiece } from 'src/app/helpers/models/chess-piece';
 import Position from './../../../helpers/models/position';
@@ -27,8 +34,27 @@ export class ChessPlateComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    this.onResize('');
+  }
+
   getPiece(x: number, y: number) {
     return this.chessPlate.getPiece(x, y);
+  }
+
+  onResize(event: any) {
+    let width = window.innerWidth - 25;
+    let height = window.innerHeight - 180;
+
+    let sizeCase = Math.min(width, height) / 8;
+
+    let cases = document.getElementsByClassName('case');
+    Array.prototype.forEach.call(cases, (elCase) => {
+      elCase?.style.setProperty('width', sizeCase + 'px');
+      elCase?.style.setProperty('height', sizeCase + 'px');
+    });
   }
 
   movePiece(piece: ChessPiece, position: Position) {

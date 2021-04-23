@@ -1,6 +1,8 @@
 <div
+  id="chessPlate"
+  (window:resize)="onResize($event)"
   [ngClass]="disabled ? 'disabledTurn' : 'actualTurn'"
-  class="container plateContainer"
+  class=""
 >
   <div *ngFor="let j of yList" class="row align-items-start">
     <div
@@ -13,7 +15,7 @@
         this.selectedPiece == getPiece(i, j) && this.selectedPiece
       "
       [class.potentialMove]="this.estPotentielMove(i, j)"
-      class="col case d-flex align-self-stretch align-items-stretch align-content-stretch"
+      class="case"
       (click)="clickOnCase(i, j)"
     >
       <app-chess-piece [piece]="getPiece(i, j)"
