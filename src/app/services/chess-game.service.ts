@@ -5,6 +5,9 @@ import { ChessPlate } from '../helpers/models/chess-plate';
 import { ChessPiece } from '../helpers/models/chess-piece';
 import Position from '../helpers/models/position';
 
+import 'sweetalert2/src/sweetalert2.scss';
+import Swal from 'sweetalert2';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -84,8 +87,21 @@ export class ChessGameService {
       if (realPiece) {
         this.chessPlate.movePiece(realPiece, pos);
       }
+      if (this.winner) {
+        this.finDePartie();
+        return;
+      }
       this.myTurn = true;
     });
+  }
+
+  finDePartie() {
+    let frenchName = this.winner == 'white' ? 'blancs' : 'noirs';
+    Swal.fire(
+      'Partie terminée',
+      'Les ' + frenchName + ' ont gagné !',
+      this.myTeam == this.winner ? 'success' : 'error'
+    );
   }
 
   //#region Demandes de duels
@@ -174,6 +190,9 @@ export class ChessGameService {
     this._socket.emit('turn', { piece: piece, pos: pos });
     this.chessPlate.movePiece(piece, pos);
     this.myTurn = !this.myTurn;
+    if (this.winner) {
+      this.finDePartie();
+    }
   }
 
   //#endregion
@@ -185,6 +204,10 @@ export class ChessGameService {
 
   public get isInGame() {
     return this.opponent !== null;
+  }
+
+  public get winner() {
+    return this.chessPlate.winner;
   }
   //#endregion
 }

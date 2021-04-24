@@ -34,18 +34,15 @@ export class ChessPlateComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
+  ngAfterViewInit(): void {
     this.onResize('');
   }
-
   getPiece(x: number, y: number) {
     return this.chessPlate.getPiece(x, y);
   }
 
   onResize(event: any) {
-    let width = window.innerWidth - 25;
+    let width = window.innerWidth;
     let height = window.innerHeight - 180;
 
     let sizeCase = Math.min(width, height) / 8;
@@ -100,5 +97,9 @@ export class ChessPlateComponent implements OnInit {
     return this.team == 'white'
       ? [7, 6, 5, 4, 3, 2, 1, 0]
       : [0, 1, 2, 3, 4, 5, 6, 7];
+  }
+
+  get winner(): string {
+    return this.chessPlate.winner;
   }
 }

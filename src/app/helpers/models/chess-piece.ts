@@ -21,7 +21,17 @@ export class ChessPiece {
   }
 
   public getMovablePositions(plate: ChessPlate): Position[] {
-    let lastPieceMoved = plate.getLastPieceMoved();
+    let potentialPos = this.getPotentialMovablePositions(plate);
+    // ATTENTION : PAS ROI EN ECHEC
+    potentialPos = potentialPos.filter((pos: Position) => {
+      // Si la pièce bouge ici, le roi n'est pas en échec
+      return !plate.estEnEchecApresMouvement(this.color, this, pos);
+    });
+    return potentialPos;
+  }
+
+  public getPotentialMovablePositions(plate: ChessPlate): Position[] {
+    // TODO ROQUE
     let movablePositions: Position[] = [];
 
     let pos: Position;
@@ -32,7 +42,7 @@ export class ChessPiece {
         let direction = this.color == 'white' ? 1 : -1;
         // pos devant lui
         pos = { x: this.position.x, y: this.position.y + direction };
-        // Si il y a personne devant lui
+        // Si il y a personne devant lui(Avancer)
         if (!plate.isPieceAtPos(pos) && this.isInPlatePosition(pos)) {
           movablePositions.push(pos);
           // Encore au début
@@ -46,23 +56,47 @@ export class ChessPiece {
             }
           }
         }
-        // S'il peut manger sur les côtées
+        // S'il peut manger sur les côtées (Manger)
+        potentialPos = [];
         pos = { x: this.position.x + 1, y: this.position.y + direction };
-        if (
-          this.isInPlatePosition(pos) &&
-          plate.isPieceAtPos(pos) &&
-          !plate.areSameTeam(this, pos)
-        ) {
-          movablePositions.push(pos);
-        }
+        potentialPos.push(pos);
         pos = { x: this.position.x - 1, y: this.position.y + direction };
-        if (
-          this.isInPlatePosition(pos) &&
-          plate.isPieceAtPos(pos) &&
-          !plate.areSameTeam(this, pos)
-        ) {
-          movablePositions.push(pos);
+        potentialPos.push(pos);
+
+        if (this.position.y == 3.5 + 0.5 * direction) {
+          // Prise en passant
+          let potentialPriseEnPassant: Position[] = [];
+          pos = { x: this.position.x + 1, y: this.position.y };
+          potentialPriseEnPassant.push(pos);
+          pos = { x: this.position.x - 1, y: this.position.y };
+          potentialPriseEnPassant.push(pos);
+
+          potentialPriseEnPassant.forEach((pos: Position) => {
+            if (this.isInPlatePosition(pos)) {
+              let piece = plate.getPiece(pos.x, pos.y);
+              if (piece != undefined) {
+                if (
+                  piece?.categorie == 'pawn' &&
+                  piece?.color != this.color &&
+                  plate.getLastPieceMoved() == piece &&
+                  plate.isLastMooveDoubleStep()
+                ) {
+                  movablePositions.push({ x: pos.x, y: pos.y + direction });
+                }
+              }
+            }
+          });
         }
+        potentialPos.forEach((pos: Position) => {
+          if (
+            this.isInPlatePosition(pos) &&
+            plate.isPieceAtPos(pos) &&
+            !plate.areSameTeam(this, pos)
+          ) {
+            movablePositions.push(pos);
+          }
+        });
+        // Prise en passant
         break;
       //#endregion
       //#region Knight
@@ -182,6 +216,23 @@ export class ChessPiece {
 
         break;
       //#endregion
+    }
+    return movablePositions;
+  }
+
+  public getDefendedPosition(plate: ChessPlate): Position[] {
+    let movablePositions = this.getPotentialMovablePositions(plate);
+    let pos: Position;
+    if (this.categorie == 'pawn') {
+      let direction = this.color == 'white' ? 1 : -1;
+      pos = { x: this.position.x + 1, y: this.position.y + direction };
+      if (this.isInPlatePosition(pos)) {
+        movablePositions.push(pos);
+      }
+      pos = { x: this.position.x - 1, y: this.position.y + direction };
+      if (this.isInPlatePosition(pos)) {
+        movablePositions.push(pos);
+      }
     }
     return movablePositions;
   }

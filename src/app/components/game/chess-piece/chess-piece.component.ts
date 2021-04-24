@@ -15,7 +15,7 @@ export class ChessPieceComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  svgUrl(): string {
+  get svgUrl(): string {
     if (typeof this.piece == 'undefined') {
       return '';
     }
@@ -26,5 +26,9 @@ export class ChessPieceComponent implements OnInit {
       this.piece?.categorie +
       '.svg'
     );
+  }
+
+  get alt(): string {
+    return this.piece ? this.piece.color + this.piece.categorie : 'Case vide';
   }
 }
