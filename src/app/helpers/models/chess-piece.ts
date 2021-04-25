@@ -1,4 +1,4 @@
-import Position from './position';
+import Position, { areEqualPositions } from './position';
 import { ChessPlate } from './chess-plate';
 
 export class ChessPiece {
@@ -213,7 +213,61 @@ export class ChessPiece {
             movablePositions.push(pos);
           }
         });
-
+        // Rocks
+        if (!this.hasMooved) {
+          let y = this.position.y;
+          let potentialRooks = [plate.getPiece(0, y), plate.getPiece(7, y)];
+          let otherTeam = this.color == 'white' ? 'black' : 'white';
+          let defendedPositionByOpponent = plate
+            .getDefendedPosition(otherTeam)
+            .filter((pos: Position) => {
+              return pos.y == y;
+            });
+          // Charge les cases menacées par l'équipe adverse,
+          // en ne gardant que la ligne du rock (qui nous intéresse)
+          potentialRooks.forEach((rook: ChessPiece | undefined) => {
+            if (
+              rook != undefined &&
+              rook.categorie == 'rook' &&
+              !rook.hasMooved
+            ) {
+              // Si c'est une tour
+              let rookX = rook.position.x;
+              let min = Math.min(rookX, this.position.x);
+              let max = Math.max(rookX, this.position.x);
+              let isSmallRock = rookX == min;
+              // Small rock or big rock
+              let direction = isSmallRock ? -1 : 1;
+              let canRock: boolean = true;
+              for (let i = min + 1; i <= max - 1; i++) {
+                if (plate.getPiece(i, y) != undefined) canRock = false; // Cases non vides
+              }
+              defendedPositionByOpponent.forEach((pos: Position) => {
+                if (areEqualPositions(pos, { x: this.position.x, y: y }))
+                  canRock = false;
+                if (
+                  areEqualPositions(pos, {
+                    x: this.position.x + direction,
+                    y: y,
+                  })
+                )
+                  canRock = false;
+                if (
+                  areEqualPositions(pos, {
+                    x: this.position.x + 2 * direction,
+                    y: y,
+                  })
+                )
+                  canRock = false;
+              });
+              if (canRock)
+                movablePositions.push({
+                  x: this.position.x + 2 * direction,
+                  y: y,
+                });
+            }
+          });
+        }
         break;
       //#endregion
     }
@@ -221,7 +275,28 @@ export class ChessPiece {
   }
 
   public getDefendedPosition(plate: ChessPlate): Position[] {
-    let movablePositions = this.getPotentialMovablePositions(plate);
+    let movablePositions = [];
+    if (this.categorie == 'king') {
+      for (let i = -1; i <= 1; i++) {
+        movablePositions.push({
+          x: this.position.x + i,
+          y: this.position.y + 1,
+        });
+        movablePositions.push({
+          x: this.position.x + i,
+          y: this.position.y - 1,
+        });
+      }
+      movablePositions.push({ x: this.position.x + 1, y: this.position.y });
+      movablePositions.push({ x: this.position.x - 1, y: this.position.y });
+      movablePositions.forEach((pos: Position) => {
+        if (this.isInPlatePosition(pos) && !plate.areSameTeam(this, pos)) {
+          movablePositions.push(pos);
+        }
+      });
+      return movablePositions;
+    }
+    movablePositions = this.getPotentialMovablePositions(plate);
     let pos: Position;
     if (this.categorie == 'pawn') {
       let direction = this.color == 'white' ? 1 : -1;

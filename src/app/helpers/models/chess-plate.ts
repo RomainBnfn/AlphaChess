@@ -11,8 +11,13 @@ export class ChessPlate {
   private whiteKing: ChessPiece;
   private blackKing: ChessPiece;
 
+  public casesDefWhite: Position[];
+  public casesDefBlack: Position[];
+
   constructor() {
     this.plate = [];
+    this.casesDefWhite = [];
+    this.casesDefBlack = [];
     this.whiteKing = new ChessPiece(0, 0, '', '');
     this.blackKing = new ChessPiece(0, 0, '', '');
     this.initialisePlate();
@@ -191,6 +196,20 @@ export class ChessPlate {
     ) {
       this.plate[position.x][position.y - direction] = undefined;
     }
+    let dx = position.x - oldPos.x;
+    if (piece.categorie == 'king' && (dx == 2 || dx == -2)) {
+      // Rock
+      let rockDirection = dx / 2;
+      let rook =
+        dx == 2
+          ? this.getPiece(7, piece.position.y)
+          : this.getPiece(0, piece.position.y);
+      let oldXRook = dx == 2 ? 7 : 0;
+
+      this.plate[position.x - rockDirection][piece.position.y] = rook;
+      this.plate[oldXRook][piece.position.y] = undefined;
+      rook?.moveTo({ x: position.x - rockDirection, y: piece.position.y });
+    }
 
     this.plate[oldPos.x][oldPos.y] = undefined;
     // Pion en bout de terrain
@@ -201,6 +220,9 @@ export class ChessPlate {
     this.lastMove = { piece: piece, newPos: position, oldPos: oldPos };
     this.plate[position.x][position.y] = piece;
     piece.moveTo(position);
+
+    this.casesDefBlack = this.getDefendedPosition('black');
+    this.casesDefWhite = this.getDefendedPosition('white');
   }
 
   public getDefendedPosition(team: string): Position[] {
@@ -259,5 +281,14 @@ export class ChessPlate {
     if (this.estEnEchecEtMat('white')) return 'black';
     if (this.estEnEchecEtMat('black')) return 'white';
     return '';
+  }
+
+  public estMenaceeCase(pos: Position, team: string) {
+    let tab = team == 'white' ? this.casesDefBlack : this.casesDefWhite;
+    return (
+      tab.filter((posFiltre: Position) => {
+        return areEqualPositions(pos, posFiltre);
+      }).length != 0
+    );
   }
 }

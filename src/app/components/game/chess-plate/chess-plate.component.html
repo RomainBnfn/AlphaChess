@@ -1,16 +1,20 @@
-<div
-  id="chessPlate"
-  (window:resize)="onResize($event)"
-  [ngClass]="disabled ? 'disabledTurn' : 'actualTurn'"
-  class=""
->
-  <div *ngFor="let j of yList" class="row align-items-start">
+<div id="chessPlate" (window:resize)="onResize($event)">
+  <div id="bandeauTour">
+    <p *ngIf="!disabled">Votre tour</p>
+    <p *ngIf="disabled">Tour de votre adversaire</p>
+  </div>
+  <div
+    *ngFor="let j of yList"
+    [ngClass]="disabled ? 'disabledTurn' : 'actualTurn'"
+    class="row align-items-start"
+  >
     <div
       [id]="i + '-' + j"
       (x)="(i)"
       (y)="(j)"
       *ngFor="let i of [7, 6, 5, 4, 3, 2, 1, 0]"
       [ngClass]="[(i + j) % 2 == 0 ? 'black' : 'white']"
+      [class.menacing]="this.is"
       [class.selected]="
         this.selectedPiece == getPiece(i, j) && this.selectedPiece
       "
