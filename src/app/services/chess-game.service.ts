@@ -15,7 +15,7 @@ import { Timer } from '../helpers/models/timer';
 export class ChessGameService {
   opponents: Array<Opponent> = [];
 
-  duelsReceived: Array<Opponent> = [];
+  duelsReceived = new Map();
   duelsSent: Array<Opponent> = [];
 
   opponent: Opponent | null = null;
@@ -25,6 +25,8 @@ export class ChessGameService {
 
   myTimer: Timer | null = null;
   opponentTimer: Timer | null = null;
+
+  duelOptions = { isInfinite: false, time: 5 };
 
   constructor(private _socket: SocketIoService) {
     _socket.listen('listOpponent').subscribe((data: any) => {
@@ -55,12 +57,12 @@ export class ChessGameService {
     //#region Duels
     _socket.listen('demandeDuel').subscribe((data: any) => {
       let opponent: Opponent = data.opponent;
-
-      let res = this.duelsReceived.filter((opponentConnu: Opponent) => {
-        return opponent.firebaseUID == opponentConnu.firebaseUID;
-      });
-      if (res.length == 0) {
-        this.duelsReceived.push(opponent);
+      let options = data.options;
+      if (!this.duelsReceived.has(opponent.firebaseUID)) {
+        this.duelsReceived.set(opponent.firebaseUID, {
+          opponent: opponent,
+          options: options,
+        });
       }
     });
 
@@ -79,8 +81,11 @@ export class ChessGameService {
       this.myTurn = data.myTurn;
       this.myTeam = this.myTurn ? 'white' : 'black';
 
-      this.opponentTimer = new Timer(5, () => {});
-      this.myTimer = new Timer(5, () => {
+      let options = data.options;
+      let time = options.isInfinite ? -1 : options.time;
+
+      this.opponentTimer = new Timer(time, () => {});
+      this.myTimer = new Timer(time, () => {
         this._socket.emit('timeout', {});
         // l'autre joueur abandonne
         Swal.fire('Vous avez perdu', "Vous n'aviez plus de temps!", 'error');
@@ -132,6 +137,10 @@ export class ChessGameService {
     });
   }
 
+  updateOption(options: { isInfinite: boolean; time: number }) {
+    this.duelOptions = options;
+  }
+
   finDePartie(hideMessage: boolean) {
     if (!hideMessage) {
       let frenchName = this.winner == 'white' ? 'blancs' : 'noirs';
@@ -150,24 +159,26 @@ export class ChessGameService {
   //#region Demandes de duels
 
   demanderDuel(opponent: Opponent) {
-    // Si on a déjà été demandé en duel par cet opponent
-    if (this.isInDuelReceived(opponent)) {
-      this.accepterDuel(opponent);
-      return;
-    }
     // Sinon, on le demande
     let res = this.duelsSent.filter((opponentConnu: Opponent) => {
       return opponent == opponentConnu;
     });
     if (res.length == 0) {
-      this._socket.emit('demandeDuel', { opponent: opponent });
+      this._socket.emit('demandeDuel', {
+        opponent: opponent,
+        options: this.duelOptions,
+      });
       this.duelsSent.push(opponent);
     }
   }
 
   accepterDuel(opponent: Opponent) {
+    let options = this.duelsReceived.get(opponent.firebaseUID).options;
     if (this.isInDuelReceived(opponent)) {
-      this._socket.emit('accepterDuel', { opponent: opponent });
+      this._socket.emit('accepterDuel', {
+        opponent: opponent,
+        options: options,
+      });
       this.declancherDuel(opponent);
     }
   }
@@ -186,9 +197,7 @@ export class ChessGameService {
 
   //#region Fnct sur les listes
   removeOpponentDuelReceived(opponent: Opponent) {
-    this.duelsReceived = this.duelsReceived.filter(
-      (opponentBis) => !areEqualOpponents(opponent, opponentBis)
-    );
+    this.duelsReceived.delete(opponent.firebaseUID);
   }
 
   removeOpponentDuelSent(opponent: Opponent) {
@@ -212,11 +221,7 @@ export class ChessGameService {
   }
 
   isInDuelReceived(opponent: Opponent) {
-    return (
-      this.duelsReceived.filter((opponentBis) =>
-        areEqualOpponents(opponent, opponentBis)
-      ).length == 1
-    );
+    return this.duelsReceived.has(opponent.firebaseUID);
   }
 
   isInOpponents(opponent: Opponent) {
@@ -270,5 +275,6 @@ export class ChessGameService {
   public get opponentTime(): string {
     return this.opponentTimer?.time || '';
   }
+
   //#endregion
 }

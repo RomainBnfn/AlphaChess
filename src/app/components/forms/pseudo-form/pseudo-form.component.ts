@@ -10,10 +10,9 @@ export class PseudoFormComponent implements OnInit {
   @Output() formCompleted = new EventEmitter<{ pseudo: string }>();
 
   pseudoForm: FormGroup;
-  errorMessage: string;
+  errorMessage: string = '';
 
   constructor(private _formBuilder: FormBuilder) {
-    this.errorMessage = '';
     this.pseudoForm = this._formBuilder.group({
       pseudo: [
         '',

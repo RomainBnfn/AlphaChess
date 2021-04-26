@@ -11,5 +11,11 @@
         Refuser
       </button>
     </div>
+
+    <div>
+      <h4>Options</h4>
+      <p *ngIf="isInfinite">Temps illimité</p>
+      <p *ngIf="!isInfinite">{{ time }} minutes par joueurs</p>
+    </div>
   </div>
 </div>

@@ -7,7 +7,9 @@
     />
     <p>{{ pseudo }}</p>
   </div>
-  <div *ngIf="isTurn">--&gt; Tour en cours &lt;--</div>
+  <div *ngIf="isTurn">
+    {{ message }}
+  </div>
   <div class="rightDiv">
     <p>
       {{ time }}

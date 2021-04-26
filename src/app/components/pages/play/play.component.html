@@ -16,6 +16,9 @@
       <div *ngIf="!isInGame">
         <app-duel-list></app-duel-list>
         <app-opponent-list></app-opponent-list>
+        <app-option-selector
+          (onUpdateOptions)="onUpdateOptions($event)"
+        ></app-option-selector>
       </div>
       <!-- Partie-->
       <div *ngIf="isInGame">

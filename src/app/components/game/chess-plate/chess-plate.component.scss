@@ -22,10 +22,8 @@
 .actualTurn {
   cursor: grab;
 }
-
-.notYourTurn {
-  background-color: rgb(54, 54, 54) !important;
-}
-.yourTurn {
-  background-color: rgb(102, 160, 76) !important;
+#bandeauTour {
+  min-height: 100px;
+  background-color: red;
+  padding-left: -12px !important;
 }

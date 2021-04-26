@@ -37,6 +37,7 @@ import { UserService } from './services/user.service';
 import { DuelListComponent } from './components/game/duel-list/duel-list.component';
 import { DuelItemComponent } from './components/game/duel-item/duel-item.component';
 import { BannerComponent } from './components/game/banner/banner.component';
+import { OptionSelectorComponent } from './components/game/option-selector/option-selector.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { BannerComponent } from './components/game/banner/banner.component';
     DuelListComponent,
     DuelItemComponent,
     BannerComponent,
+    OptionSelectorComponent,
   ],
   imports: [
     BrowserModule,

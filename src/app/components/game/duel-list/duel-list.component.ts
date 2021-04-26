@@ -23,8 +23,4 @@ export class DuelListComponent implements OnInit {
   get duelsReceived() {
     return this._game.duelsReceived;
   }
-
-  get duelsSent() {
-    return this._game.duelsSent;
-  }
 }

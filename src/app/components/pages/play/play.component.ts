@@ -43,6 +43,10 @@ export class PlayComponent implements OnInit {
     this._chessGame.turn(piece, pos);
   }
 
+  onUpdateOptions(options: { isInfinite: boolean; time: number }) {
+    this._chessGame.updateOption(options);
+  }
+
   onGiveUp() {
     this._chessGame.giveUp();
   }
@@ -95,6 +99,7 @@ export class PlayComponent implements OnInit {
   get opponentTime(): string {
     return this._chessGame.opponentTime;
   }
+
   ngOnInit() {
     this._spinner.show();
   }

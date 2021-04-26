@@ -7,7 +7,10 @@ import { Opponent } from 'src/app/helpers/models/opponent';
   styleUrls: ['./duel-item.component.scss'],
 })
 export class DuelItemComponent implements OnInit {
-  @Input() duel: Opponent | null = null;
+  @Input() duel: {
+    opponent: Opponent;
+    options: { isInfinite: boolean; time: number };
+  } | null = null;
   @Output() reponseDuel = new EventEmitter<boolean>();
 
   constructor() {}
@@ -23,10 +26,22 @@ export class DuelItemComponent implements OnInit {
   }
 
   get pseudo() {
-    return this.duel?.pseudo || '';
+    return this.duel?.opponent.pseudo || '';
   }
 
   get firebaseUID() {
-    return this.duel?.firebaseUID || '';
+    return this.duel?.opponent.firebaseUID || '';
+  }
+
+  get options() {
+    return this.duel?.options;
+  }
+
+  get isInfinite() {
+    return this.options?.isInfinite || false;
+  }
+
+  get time() {
+    return this.options?.time || 5;
   }
 }

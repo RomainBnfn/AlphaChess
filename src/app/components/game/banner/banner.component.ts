@@ -34,4 +34,8 @@ export class BannerComponent implements OnInit {
   get givingUp() {
     return this.isGivingUp;
   }
+
+  get message(): string {
+    return this.isMe ? 'A vous de jouer !' : 'Votre adversaire joue...';
+  }
 }
