@@ -299,15 +299,9 @@ export class ChessPiece {
     movablePositions = this.getPotentialMovablePositions(plate);
     let pos: Position;
     if (this.categorie == 'pawn') {
-      let direction = this.color == 'white' ? 1 : -1;
-      pos = { x: this.position.x + 1, y: this.position.y + direction };
-      if (this.isInPlatePosition(pos)) {
-        movablePositions.push(pos);
-      }
-      pos = { x: this.position.x - 1, y: this.position.y + direction };
-      if (this.isInPlatePosition(pos)) {
-        movablePositions.push(pos);
-      }
+      movablePositions = movablePositions.filter((pos: Position) => {
+        return pos.x != this.position.x;
+      });
     }
     return movablePositions;
   }

@@ -17,13 +17,17 @@
         <app-duel-list></app-duel-list>
         <app-opponent-list></app-opponent-list>
       </div>
-      <app-chess-plate
-        *ngIf="isInGame"
-        [disabled]="!isMyTurn"
-        [chessPlate]="chessPlate"
-        [team]="team"
-        (onPieceMove)="onPieceMove($event.piece, $event.position)"
-      ></app-chess-plate>
+      <!-- Partie-->
+      <div *ngIf="isInGame">
+        <app-banner [pseudo]="opponentPseudo" [isTurn]="!isMyTurn"></app-banner>
+        <app-chess-plate
+          [disabled]="!isMyTurn"
+          [chessPlate]="chessPlate"
+          [team]="team"
+          (onPieceMove)="onPieceMove($event.piece, $event.position)"
+        ></app-chess-plate>
+        <app-banner [pseudo]="pseudo" [isTurn]="isMyTurn"></app-banner>
+      </div>
     </div>
   </div>
 

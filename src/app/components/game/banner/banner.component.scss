@@ -1,0 +1,12 @@
+#bandeau {
+  display: flex;
+  flex-direction: row;
+  min-height: 60px;
+  background-color: #11152a;
+  justify-content: space-between;
+}
+.leftDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

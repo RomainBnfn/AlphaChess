@@ -27,14 +27,9 @@ export class ChessPlateComponent implements OnInit {
 
   selectedPiece: ChessPiece | undefined;
   potentialMoves: Position[];
-  menaningPiece: Position[];
 
-  caseMenacees: Position[];
-
-  constructor(_chess: ChessGameService) {
+  constructor() {
     this.potentialMoves = [];
-    this.menaningPiece = [];
-    this.caseMenacees = [];
   }
 
   ngOnInit(): void {}
@@ -48,7 +43,7 @@ export class ChessPlateComponent implements OnInit {
 
   onResize(event: any) {
     let width = window.innerWidth;
-    let height = window.innerHeight - 180 - 100;
+    let height = window.innerHeight - 180 - 120;
 
     let sizePlateau = Math.min(width, height);
     let sizeCase = sizePlateau / 8;
@@ -102,9 +97,6 @@ export class ChessPlateComponent implements OnInit {
     return this.potentialMoves.some((e) => e.x == x && e.y == y);
   }
 
-  estMenaceeCase(pos: Position) {
-    return this.chessPlate.estMenaceeCase(pos, this.team);
-  }
   get yList() {
     return this.team == 'white'
       ? [7, 6, 5, 4, 3, 2, 1, 0]
@@ -113,5 +105,9 @@ export class ChessPlateComponent implements OnInit {
 
   get winner(): string {
     return this.chessPlate.winner;
+  }
+
+  get estEnEchec(): boolean {
+    return this.chessPlate.estEnEchec(this.team);
   }
 }

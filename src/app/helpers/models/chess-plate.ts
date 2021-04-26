@@ -11,13 +11,8 @@ export class ChessPlate {
   private whiteKing: ChessPiece;
   private blackKing: ChessPiece;
 
-  public casesDefWhite: Position[];
-  public casesDefBlack: Position[];
-
   constructor() {
     this.plate = [];
-    this.casesDefWhite = [];
-    this.casesDefBlack = [];
     this.whiteKing = new ChessPiece(0, 0, '', '');
     this.blackKing = new ChessPiece(0, 0, '', '');
     this.initialisePlate();
@@ -154,27 +149,6 @@ export class ChessPlate {
     return this.plate;
   }
 
-  public estEnEchecApresMouvement(
-    team: string,
-    piece: ChessPiece,
-    pos: Position
-  ): boolean {
-    let oldPos = { x: piece.position.x, y: piece.position.y };
-    let oldPiece = this.getPiece(pos.x, pos.y);
-
-    this.plate[oldPos.x][oldPos.y] = undefined;
-    this.plate[pos.x][pos.y] = piece;
-    piece.position = pos;
-
-    let result = this.estEnEchec(team);
-
-    this.plate[oldPos.x][oldPos.y] = piece;
-    this.plate[pos.x][pos.y] = oldPiece;
-    piece.position = oldPos;
-
-    return result;
-  }
-
   public areSameTeam(pieceA: ChessPiece, pos: Position) {
     let pieceB = this.getPiece(pos.x, pos.y);
     if (pieceB == undefined) {
@@ -220,9 +194,6 @@ export class ChessPlate {
     this.lastMove = { piece: piece, newPos: position, oldPos: oldPos };
     this.plate[position.x][position.y] = piece;
     piece.moveTo(position);
-
-    this.casesDefBlack = this.getDefendedPosition('black');
-    this.casesDefWhite = this.getDefendedPosition('white');
   }
 
   public getDefendedPosition(team: string): Position[] {
@@ -240,6 +211,8 @@ export class ChessPlate {
     return defendedPos;
   }
 
+  //#region Echec & Fin de partie
+
   public estEnEchec(team: string): boolean {
     let king = team == 'white' ? this.whiteKing : this.blackKing;
     let kingPos = king.position;
@@ -249,6 +222,27 @@ export class ChessPlate {
         return areEqualPositions(pos, kingPos);
       }).length != 0 // Si la pos du roi est dans les positions défendus de l'équipe adverse
     );
+  }
+
+  public estEnEchecApresMouvement(
+    team: string,
+    piece: ChessPiece,
+    pos: Position
+  ): boolean {
+    let oldPos = { x: piece.position.x, y: piece.position.y };
+    let oldPiece = this.getPiece(pos.x, pos.y);
+
+    this.plate[oldPos.x][oldPos.y] = undefined;
+    this.plate[pos.x][pos.y] = piece;
+    piece.position = pos;
+
+    let result = this.estEnEchec(team);
+
+    this.plate[oldPos.x][oldPos.y] = piece;
+    this.plate[pos.x][pos.y] = oldPiece;
+    piece.position = oldPos;
+
+    return result;
   }
 
   public estEnEchecEtMat(team: string): boolean {
@@ -268,6 +262,7 @@ export class ChessPlate {
     });
     return result;
   }
+  //#endregion
 
   public isLastMooveDoubleStep() {
     if (this.lastMove == undefined) return false;
@@ -281,14 +276,5 @@ export class ChessPlate {
     if (this.estEnEchecEtMat('white')) return 'black';
     if (this.estEnEchecEtMat('black')) return 'white';
     return '';
-  }
-
-  public estMenaceeCase(pos: Position, team: string) {
-    let tab = team == 'white' ? this.casesDefBlack : this.casesDefWhite;
-    return (
-      tab.filter((posFiltre: Position) => {
-        return areEqualPositions(pos, posFiltre);
-      }).length != 0
-    );
   }
 }

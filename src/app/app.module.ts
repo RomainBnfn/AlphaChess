@@ -36,6 +36,7 @@ import { ChessGameService } from './services/chess-game.service';
 import { UserService } from './services/user.service';
 import { DuelListComponent } from './components/game/duel-list/duel-list.component';
 import { DuelItemComponent } from './components/game/duel-item/duel-item.component';
+import { BannerComponent } from './components/game/banner/banner.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { DuelItemComponent } from './components/game/duel-item/duel-item.compone
     OpponentItemComponent,
     DuelListComponent,
     DuelItemComponent,
+    BannerComponent,
   ],
   imports: [
     BrowserModule,

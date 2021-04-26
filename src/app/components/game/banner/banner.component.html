@@ -1,0 +1,12 @@
+<div id="bandeau">
+  <div class="leftDiv">
+    <img
+      src="../../../../assets/images/profile-user.svg"
+      alt="Icone Utilisateur"
+      width="40"
+    />
+    <p>{{ pseudo }}</p>
+  </div>
+  <div *ngIf="isTurn">--&gt; Tour en cours &lt;--</div>
+  <div>{{ time }}</div>
+</div>

@@ -58,6 +58,11 @@ export class PlayComponent implements OnInit {
     return this._user.displayName;
   }
 
+  get opponentPseudo() {
+    if (this._chessGame.opponent) return this._chessGame.opponent.pseudo;
+    return '';
+  }
+
   get imageURL() {
     return this._user.photoURL;
   }

@@ -88,20 +88,30 @@ export class ChessGameService {
         this.chessPlate.movePiece(realPiece, pos);
       }
       if (this.winner) {
-        this.finDePartie();
+        this.finDePartie(false);
         return;
       }
       this.myTurn = true;
     });
+
+    _socket.listen('giveup').subscribe((data: any) => {
+      // l'autre joueur abandonne
+      Swal.fire('Vous avez gagné', 'Votre adversaire a abandonné !', 'success');
+      this.finDePartie(true);
+    });
   }
 
-  finDePartie() {
-    let frenchName = this.winner == 'white' ? 'blancs' : 'noirs';
-    Swal.fire(
-      'Partie terminée',
-      'Les ' + frenchName + ' ont gagné !',
-      this.myTeam == this.winner ? 'success' : 'error'
-    );
+  finDePartie(isGiveUp: boolean) {
+    if (!isGiveUp) {
+      let frenchName = this.winner == 'white' ? 'blancs' : 'noirs';
+      Swal.fire(
+        'Partie terminée',
+        'Les ' + frenchName + ' ont gagné !',
+        this.myTeam == this.winner ? 'success' : 'error'
+      );
+    }
+    this.opponent = null;
+    this.chessPlate = new ChessPlate();
   }
 
   //#region Demandes de duels
@@ -131,6 +141,7 @@ export class ChessGameService {
 
   declancherDuel(opponent: Opponent) {
     this.removeOpponentDuelReceived(opponent);
+    this.removeOpponentDuelSent(opponent);
     this.opponent = opponent;
   }
 
@@ -191,8 +202,15 @@ export class ChessGameService {
     this.chessPlate.movePiece(piece, pos);
     this.myTurn = !this.myTurn;
     if (this.winner) {
-      this.finDePartie();
+      this.finDePartie(false);
     }
+  }
+
+  giveUp() {
+    this._socket.emit('giveup', {});
+    // l'autre joueur abandonne
+    Swal.fire('Vous avez perdu', 'Vous avez abandonné !', 'error');
+    this.finDePartie(true);
   }
 
   //#endregion
