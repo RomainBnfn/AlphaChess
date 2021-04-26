@@ -12,6 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 import { ChessPiece } from 'src/app/helpers/models/chess-piece';
 
 import Position from './../../../helpers/models/position';
+import { Timer } from 'src/app/helpers/models/timer';
 
 @Component({
   selector: 'app-play',
@@ -40,6 +41,10 @@ export class PlayComponent implements OnInit {
 
   onPieceMove(piece: ChessPiece, pos: Position) {
     this._chessGame.turn(piece, pos);
+  }
+
+  onGiveUp() {
+    this._chessGame.giveUp();
   }
 
   get isInGame() {
@@ -83,6 +88,13 @@ export class PlayComponent implements OnInit {
     return this._chessGame.myTeam;
   }
 
+  get time(): string {
+    return this._chessGame.myTime;
+  }
+
+  get opponentTime(): string {
+    return this._chessGame.opponentTime;
+  }
   ngOnInit() {
     this._spinner.show();
   }

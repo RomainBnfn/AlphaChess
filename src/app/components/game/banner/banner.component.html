@@ -8,5 +8,35 @@
     <p>{{ pseudo }}</p>
   </div>
   <div *ngIf="isTurn">--&gt; Tour en cours &lt;--</div>
-  <div>{{ time }}</div>
+  <div class="rightDiv">
+    <p>
+      {{ time }}
+    </p>
+    <div *ngIf="isMe">
+      <button
+        *ngIf="!givingUp"
+        type="button"
+        class="btn btn-secondary"
+        (click)="onClicOnGiveUpBtn()"
+      >
+        Abandonner
+      </button>
+      <button
+        *ngIf="givingUp"
+        type="button"
+        class="btn btn-danger"
+        (click)="onClicOnConfirmBtn()"
+      >
+        Confirmer
+      </button>
+      <button
+        *ngIf="givingUp"
+        type="button"
+        class="btn btn-warning"
+        (click)="onClickOnCancelBtn()"
+      >
+        Annuler
+      </button>
+    </div>
+  </div>
 </div>

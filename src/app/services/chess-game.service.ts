@@ -7,6 +7,7 @@ import Position from '../helpers/models/position';
 
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2';
+import { Timer } from '../helpers/models/timer';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,9 @@ export class ChessGameService {
   myTurn: boolean = true;
   myTeam: string = 'white';
   chessPlate: ChessPlate = new ChessPlate();
+
+  myTimer: Timer | null = null;
+  opponentTimer: Timer | null = null;
 
   constructor(private _socket: SocketIoService) {
     _socket.listen('listOpponent').subscribe((data: any) => {
@@ -74,6 +78,21 @@ export class ChessGameService {
     _socket.listen('startGame').subscribe((data: any) => {
       this.myTurn = data.myTurn;
       this.myTeam = this.myTurn ? 'white' : 'black';
+
+      this.opponentTimer = new Timer(5, () => {});
+      this.myTimer = new Timer(5, () => {
+        this._socket.emit('timeout', {});
+        // l'autre joueur abandonne
+        Swal.fire('Vous avez perdu', "Vous n'aviez plus de temps!", 'error');
+        this.finDePartie(true);
+      });
+
+      if (this.myTurn) {
+        this.myTimer?.start();
+      } else {
+        this.opponentTimer?.start();
+      }
+
       this.chessPlate = new ChessPlate();
     });
 
@@ -91,6 +110,8 @@ export class ChessGameService {
         this.finDePartie(false);
         return;
       }
+      this.myTimer?.start();
+      this.opponentTimer?.pause();
       this.myTurn = true;
     });
 
@@ -99,10 +120,20 @@ export class ChessGameService {
       Swal.fire('Vous avez gagné', 'Votre adversaire a abandonné !', 'success');
       this.finDePartie(true);
     });
+
+    _socket.listen('timeout').subscribe((data: any) => {
+      // l'autre joueur abandonne
+      Swal.fire(
+        'Vous avez gagné',
+        "Votre adversaire n'avait plus de temps !",
+        'success'
+      );
+      this.finDePartie(true);
+    });
   }
 
-  finDePartie(isGiveUp: boolean) {
-    if (!isGiveUp) {
+  finDePartie(hideMessage: boolean) {
+    if (!hideMessage) {
       let frenchName = this.winner == 'white' ? 'blancs' : 'noirs';
       Swal.fire(
         'Partie terminée',
@@ -111,6 +142,8 @@ export class ChessGameService {
       );
     }
     this.opponent = null;
+    this.myTimer?.reset(-1);
+    this.opponentTimer?.reset(-1);
     this.chessPlate = new ChessPlate();
   }
 
@@ -201,6 +234,8 @@ export class ChessGameService {
     this._socket.emit('turn', { piece: piece, pos: pos });
     this.chessPlate.movePiece(piece, pos);
     this.myTurn = !this.myTurn;
+    this.myTimer?.pause();
+    this.opponentTimer?.start();
     if (this.winner) {
       this.finDePartie(false);
     }
@@ -226,6 +261,14 @@ export class ChessGameService {
 
   public get winner() {
     return this.chessPlate.winner;
+  }
+
+  public get myTime(): string {
+    return this.myTimer?.time || '';
+  }
+
+  public get opponentTime(): string {
+    return this.opponentTimer?.time || '';
   }
   //#endregion
 }

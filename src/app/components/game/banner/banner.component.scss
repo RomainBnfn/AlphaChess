@@ -5,7 +5,8 @@
   background-color: #11152a;
   justify-content: space-between;
 }
-.leftDiv {
+.leftDiv,
+.rightDiv {
   display: flex;
   flex-direction: row;
   align-items: center;
