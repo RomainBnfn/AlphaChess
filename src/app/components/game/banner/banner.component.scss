@@ -1,13 +1,44 @@
-#bandeau {
+.banner {
+  padding-left: 10px;
+  padding-left: 5px;
   display: flex;
   flex-direction: row;
   min-height: 60px;
   background-color: #11152a;
   justify-content: space-between;
+  align-items: center;
 }
 .leftDiv,
 .rightDiv {
   display: flex;
   flex-direction: row;
   align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: space-between;
+}
+.timeDiv {
+  padding: 8px;
+  margin: 5px;
+  border-radius: 10px;
+  background-color: #1d2548;
+
+  display: flex;
+  justify-items: center;
+  align-items: center;
+
+  justify-content: center;
+  align-content: center;
+
+  text-align: center;
+}
+button {
+  margin: 5px;
+}
+.message {
+  font-size: large;
+  font-weight: 500;
+}
+.pseudo {
+  margin: 10px;
 }

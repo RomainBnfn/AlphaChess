@@ -1,6 +1,8 @@
 .page-container {
   padding-top: 90px;
   padding-bottom: 90px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
   background-color: #11152a;
   height: 100vh;
   color: white;

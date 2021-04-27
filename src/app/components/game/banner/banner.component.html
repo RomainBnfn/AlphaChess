@@ -1,17 +1,19 @@
-<div id="bandeau">
+<div [id]="id" class="banner" (window:resize)="onResize($event)">
   <div class="leftDiv">
     <img
       src="../../../../assets/images/profile-user.svg"
       alt="Icone Utilisateur"
       width="40"
     />
-    <p>{{ pseudo }}</p>
+    <p class="pseudo">
+      {{ pseudo }}
+    </p>
   </div>
-  <div *ngIf="isTurn">
+  <p *ngIf="isTurn" class="message">
     {{ message }}
-  </div>
+  </p>
   <div class="rightDiv">
-    <p>
+    <p class="timeDiv">
       {{ time }}
     </p>
     <div *ngIf="isMe">

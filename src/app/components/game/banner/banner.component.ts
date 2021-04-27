@@ -19,16 +19,32 @@ export class BannerComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngAfterViewInit(): void {
+    this.onResize('');
+  }
+
+  onResize(event: any) {
+    let width = window.innerWidth;
+    let height = window.innerHeight - 180 - 120;
+    let size = Math.min(width, height);
+
+    let bandeau = document.getElementById(this.id);
+    bandeau?.style.setProperty('width', size + 'px');
+  }
+
   onClicOnGiveUpBtn() {
     this.isGivingUp = true;
   }
-
   onClicOnConfirmBtn() {
     this.onGiveUp.emit();
   }
 
   onClickOnCancelBtn() {
     this.isGivingUp = false;
+  }
+
+  get id(): string {
+    return 'bandeau' + this.isMe;
   }
 
   get givingUp() {

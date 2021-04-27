@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChessGameService } from 'src/app/services/chess-game.service';
+import { ChessGameService } from 'src/app/helpers/services/chess-game.service';
 import { Opponent } from 'src/app/helpers/models/opponent';
 
 @Component({

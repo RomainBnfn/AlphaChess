@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserRegisterData } from 'src/app/helpers/models/user-register-data';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../helpers/services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SamePasswordValidator } from 'src/app/helpers/validators/SamePasswordValidator';
@@ -39,19 +39,6 @@ export class RegisterFormComponent implements OnInit {
     );
   }
 
-  get email() {
-    return this.signUpForm.get('email');
-  }
-  get emailConfirmation() {
-    return this.signUpForm.get('emailConfirmation');
-  }
-  get password() {
-    return this.signUpForm.get('password');
-  }
-  get passwordConfirmation() {
-    return this.signUpForm.get('passwordConfirmation');
-  }
-
   onSubmit() {
     const email = this.email?.value;
     const emailConfirmation = this.emailConfirmation?.value;
@@ -78,5 +65,18 @@ export class RegisterFormComponent implements OnInit {
           this.errorMessage = error;
         }
       );
+  }
+
+  get email() {
+    return this.signUpForm.get('email');
+  }
+  get emailConfirmation() {
+    return this.signUpForm.get('emailConfirmation');
+  }
+  get password() {
+    return this.signUpForm.get('password');
+  }
+  get passwordConfirmation() {
+    return this.signUpForm.get('passwordConfirmation');
   }
 }

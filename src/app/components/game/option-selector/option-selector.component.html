@@ -1,47 +1,51 @@
-<h1>Vos options de défis</h1>
-<p>Définissez les règles des défis que vous envoyez aux autres joueurs.</p>
-<div class="card-deck card-columns"></div>
-<form [formGroup]="optionsForm">
-  <!-- Checked switch -->
-  <div class="form-check form-switch">
-    <input
-      class="form-check-input"
-      type="checkbox"
-      id="flexSwitchCheckChecked"
-      formControlName="isInfinite"
-      (change)="onSubmit()"
-      checked
-    />
-    <label class="form-check-label" for="flexSwitchCheckChecked"
-      >Temps illimité</label
+<div class="optionsSelector">
+  <h1>Vos options de défis</h1>
+  <p>Définissez les règles des défis que vous envoyez aux autres joueurs.</p>
+  <div class="card-deck card-columns"></div>
+  <form [formGroup]="optionsForm">
+    <!-- Checked switch -->
+    <div class="form-check form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="flexSwitchCheckChecked"
+        formControlName="isInfinite"
+        (change)="onSubmit()"
+        checked
+      />
+      <label class="form-check-label" for="flexSwitchCheckChecked"
+        >Temps illimité</label
+      >
+    </div>
+
+    <div *ngIf="!isInfinite">
+      <label for="time">Limite de temps (minutes)</label>
+      <input
+        (keyup)="onSubmit()"
+        (change)="onSubmit()"
+        type="number"
+        name="time"
+        class="form-control col-3"
+        id="time"
+        placeholder="Limite de temps (en minute)"
+        min="0"
+        max="30"
+        formControlName="time"
+        autocomplete="off"
+        required
+      />
+    </div>
+
+    <ul
+      *ngIf="
+        optionsForm?.invalid && (optionsForm?.touched || optionsForm?.dirty)
+      "
+      class="alert alert-danger"
     >
-  </div>
-
-  <div *ngIf="!isInfinite">
-    <label for="time">Limite de temps</label>
-    <input
-      (keyup)="onSubmit()"
-      (change)="onSubmit()"
-      type="number"
-      name="time"
-      class="form-control col-3"
-      id="time"
-      placeholder="Limite de temps (en minute)"
-      min="0"
-      max="30"
-      formControlName="time"
-      autocomplete="off"
-      required
-    />
-  </div>
-
-  <ul
-    *ngIf="optionsForm?.invalid && (optionsForm?.touched || optionsForm?.dirty)"
-    class="alert alert-danger"
-  >
-    <li>Merci de saisir un temps entre 1 et 30 minutes.</li>
-  </ul>
-  <p class="text-danger">
-    {{ errorMessage }}
-  </p>
-</form>
+      <li>Merci de saisir un temps entre 1 et 30 minutes.</li>
+    </ul>
+    <p class="text-danger">
+      {{ errorMessage }}
+    </p>
+  </form>
+</div>

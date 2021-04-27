@@ -3,19 +3,22 @@
     <h5 class="card-title">{{ pseudo }}</h5>
   </div>
   <div class="card-body">
-    <div>
-      <button type="button" (click)="accepter()" class="btn btn-success btn-lg">
-        Accepter
-      </button>
-      <button type="button" (click)="refuser()" class="btn btn-danger btn-lg">
-        Refuser
-      </button>
-    </div>
-
-    <div>
-      <h4>Options</h4>
-      <p *ngIf="isInfinite">Temps illimité</p>
-      <p *ngIf="!isInfinite">{{ time }} minutes par joueurs</p>
-    </div>
+    <button type="button" (click)="accepter()" class="btn btn-success">
+      Accepter
+    </button>
+    <button type="button" (click)="refuser()" class="btn btn-danger">
+      Refuser
+    </button>
   </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div>
+        <div>
+          <h4 class="card-title">Options</h4>
+          <p *ngIf="isInfinite">Temps illimité</p>
+          <p *ngIf="!isInfinite">{{ time }} minutes par joueurs</p>
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>

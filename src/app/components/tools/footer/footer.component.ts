@@ -3,12 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import firebase from 'firebase/app';
 import 'firebase/analytics';
 import 'firebase/auth';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/helpers/services/auth.service';
 import { Router } from '@angular/router';
 
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/helpers/services/user.service';
 
 @Component({
   selector: 'app-footer',

@@ -1,3 +1,14 @@
 li {
   margin-left: 1em;
 }
+.alert,
+.alert-danger {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.btn {
+  margin: 10px;
+}
+.form-group + .form-group {
+  margin-top: 10px;
+}

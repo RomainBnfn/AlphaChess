@@ -6,7 +6,7 @@ import { LoginComponent } from './components/pages/login/login.component';
 import { PlayComponent } from './components/pages/play/play.component';
 import { TrainComponent } from './components/pages/train/train.component';
 import { RegisterComponent } from './components/pages/register/register.component';
-import { AuthGuardService } from './services/auth-guard.service';
+import { AuthGuardService } from './helpers/services/auth-guard.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

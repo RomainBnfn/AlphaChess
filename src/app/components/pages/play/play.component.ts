@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ChessGameService } from 'src/app/services/chess-game.service';
+import { ChessGameService } from 'src/app/helpers/services/chess-game.service';
 
 import firebase from 'firebase/app';
 import 'firebase/analytics';
 import 'firebase/auth';
 
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/helpers/services/user.service';
 import { ChessPiece } from 'src/app/helpers/models/chess-piece';
 
 import Position from './../../../helpers/models/position';
@@ -29,6 +29,10 @@ export class PlayComponent implements OnInit {
     if (this.hasPseudo) {
       this._user.initConnexion(this.pseudo);
     }
+  }
+
+  ngOnInit() {
+    this._spinner.show();
   }
 
   onPseudoChoosen(response: { pseudo: string }) {
@@ -98,9 +102,5 @@ export class PlayComponent implements OnInit {
 
   get opponentTime(): string {
     return this._chessGame.opponentTime;
-  }
-
-  ngOnInit() {
-    this._spinner.show();
   }
 }

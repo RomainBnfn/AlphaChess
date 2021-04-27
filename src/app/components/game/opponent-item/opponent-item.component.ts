@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Opponent } from 'src/app/helpers/models/opponent';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/helpers/services/user.service';
 
 @Component({
   selector: 'app-opponent-item',

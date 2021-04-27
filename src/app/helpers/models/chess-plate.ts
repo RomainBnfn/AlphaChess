@@ -26,6 +26,9 @@ export class ChessPlate {
     return this.lastMove?.piece;
   }
 
+  /**
+   * Initialise le plateau avec la liste des pièces au bon endroit
+   */
   private initialisePlate() {
     this.plate = new Array(8);
     for (let i = 0; i < 8; i++) {
@@ -145,10 +148,6 @@ export class ChessPlate {
     return this.plate[pos.x][pos.y] != undefined;
   }
 
-  public getPlate() {
-    return this.plate;
-  }
-
   public areSameTeam(pieceA: ChessPiece, pos: Position) {
     let pieceB = this.getPiece(pos.x, pos.y);
     if (pieceB == undefined) {
@@ -157,6 +156,11 @@ export class ChessPlate {
     return pieceA.color == pieceB.color;
   }
 
+  /**
+   * Déplace une pièce à une position
+   * @param piece  La pièce
+   * @param position La position
+   */
   public movePiece(piece: ChessPiece, position: Position) {
     let oldPos = { x: piece.position.x, y: piece.position.y };
     let direction = piece.color == 'white' ? 1 : -1;
@@ -196,6 +200,11 @@ export class ChessPlate {
     piece.moveTo(position);
   }
 
+  /**
+   * Retourne les positions défendues (attaquables) par une équipe
+   * @param team L'équipe
+   * @returns Les positions défendues de l'équipe
+   */
   public getDefendedPosition(team: string): Position[] {
     let defendedPos: Position[] = [];
     this.plate.forEach((line: (ChessPiece | undefined)[]) => {
@@ -224,6 +233,13 @@ export class ChessPlate {
     );
   }
 
+  /**
+   * Indique si l'équipe est en échec après effectué ce déplacement
+   * @param team L'équipe
+   * @param piece La pièce déplacée
+   * @param pos La position finale du déplacement
+   * @returns Si l'équipe est en échec après effectué ce déplacement
+   */
   public estEnEchecApresMouvement(
     team: string,
     piece: ChessPiece,
@@ -264,6 +280,10 @@ export class ChessPlate {
   }
   //#endregion
 
+  /**
+   *
+   * @returns Si le dernier coup joué était un double pas
+   */
   public isLastMooveDoubleStep() {
     if (this.lastMove == undefined) return false;
     return (

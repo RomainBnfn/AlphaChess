@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { SocketIoService } from './socket-io.service';
-import { Opponent, areEqualOpponents } from '../helpers/models/opponent';
-import { ChessPlate } from '../helpers/models/chess-plate';
-import { ChessPiece } from '../helpers/models/chess-piece';
-import Position from '../helpers/models/position';
+import { Opponent, areEqualOpponents } from '../models/opponent';
+import { ChessPlate } from '../models/chess-plate';
+import { ChessPiece } from '../models/chess-piece';
+import Position from '../models/position';
 
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2';
-import { Timer } from '../helpers/models/timer';
+import { Timer } from '../models/timer';
 
 @Injectable({
   providedIn: 'root',
@@ -122,8 +122,14 @@ export class ChessGameService {
 
     _socket.listen('giveup').subscribe((data: any) => {
       // l'autre joueur abandonne
-      Swal.fire('Vous avez gagné', 'Votre adversaire a abandonné !', 'success');
-      this.finDePartie(true);
+      if (this.isInGame) {
+        Swal.fire(
+          'Vous avez gagné',
+          'Votre adversaire a abandonné !',
+          'success'
+        );
+        this.finDePartie(true);
+      }
     });
 
     _socket.listen('timeout').subscribe((data: any) => {

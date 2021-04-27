@@ -20,6 +20,11 @@ export class ChessPiece {
     this.position.y = position.y;
   }
 
+  /**
+   * Retourne tous les positions déplaçable pour une pièce
+   * @param plate Le plateau de jeu
+   * @returns Le liste des positions déplaçables pour une pièce
+   */
   public getMovablePositions(plate: ChessPlate): Position[] {
     let potentialPos = this.getPotentialMovablePositions(plate);
     // ATTENTION : PAS ROI EN ECHEC
@@ -30,8 +35,12 @@ export class ChessPiece {
     return potentialPos;
   }
 
-  public getPotentialMovablePositions(plate: ChessPlate): Position[] {
-    // TODO ROQUE
+  /**
+   *  Retourne la liste des mouvements potentiels possibles (sans ternir compte du roi)
+   * @param plate Le plateau de jeu
+   * @returns Le liste des positions potentielement déplaçables pour une pièce
+   */
+  private getPotentialMovablePositions(plate: ChessPlate): Position[] {
     let movablePositions: Position[] = [];
 
     let pos: Position;
@@ -274,6 +283,11 @@ export class ChessPiece {
     return movablePositions;
   }
 
+  /**
+   *  Retourne la liste des positions défendues (attaquables) par une pièce
+   * @param plate Le plateau de jeu
+   * @returns La liste des positions défendues par une pièce
+   */
   public getDefendedPosition(plate: ChessPlate): Position[] {
     let movablePositions = [];
     if (this.categorie == 'king') {
@@ -312,6 +326,11 @@ export class ChessPiece {
     );
   }
 
+  /**
+   *  Permet d'obtenir une liste de position dans le plateau en oppérant 8 fois l'opération op.
+   * @param op Opération à répéter
+   * @param branches Les branches actuelles
+   */
   private stepBranchOperator(op: Function, branches: Position[][]) {
     let branche: Position[] = [];
     for (let i = 1; i < 8; i++) {
@@ -324,6 +343,12 @@ export class ChessPiece {
     branches.push(branche);
   }
 
+  /**
+   *  Permet d'obtenir les 4 branches diagonales à partir d'une position
+   * @param x Le x de la pos
+   * @param y Le y de la pos
+   * @returns Les branches diagonales
+   */
   private getDiagonalBranches(x: number, y: number) {
     let branches: Position[][] = [];
     this.stepBranchOperator((i: number) => {
@@ -341,6 +366,12 @@ export class ChessPiece {
     return branches;
   }
 
+  /**
+   *  Permet d'obtenir les 4 branches rectilignes à partir d'une position
+   * @param x Le x de la pos
+   * @param y Le y de la pos
+   * @returns Les branches rectilignes
+   */
   private getStraightBranches(x: number, y: number) {
     let branches: Position[][] = [];
     this.stepBranchOperator((i: number) => {

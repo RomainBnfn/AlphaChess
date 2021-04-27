@@ -1,11 +1,5 @@
 <div class="page-container container-fluid">
   <div class="col-sm-10 col-md-8 col-lg-5 col-xl-4 mx-auto page">
-    <img
-      src="../../../assets/images/logo_dark.png"
-      alt="Logo d'AlphaChess"
-      class="img-fluid mx-auto"
-      width="30%"
-    />
     <p class="display-3 title mx-auto">AlphaChess</p>
     <hr />
     <p class="text-presentation text-center">
@@ -14,16 +8,26 @@
       des égnimes générées pour vous !
     </p>
     <hr />
-    <a *ngIf="!isAuth" routerLink="/login" class="mx-auto">
-      <button type="button" class="btn btn-outline-primary">
-        Se connecter
-      </button>
-    </a>
-    <a *ngIf="!isAuth" routerLink="/register" class="mx-auto">
-      <button type="button" class="btn btn-outline-primary">S'inscrire</button>
-    </a>
-    <a *ngIf="isAuth" routerLink="/play" class="mx-auto">
-      <button type="button" class="btn btn-outline-primary">Jouer</button>
-    </a>
+    <div class="btnDiv mx-auto">
+      <a *ngIf="!isAuth" routerLink="/login" class="btn-accueil">
+        <button type="button" class="btn btn-outline-primary">
+          Se connecter
+        </button>
+      </a>
+      <a *ngIf="!isAuth" routerLink="/register" class="btn-accueil">
+        <button type="button" class="btn btn-outline-primary">
+          S'inscrire
+        </button>
+      </a>
+      <a *ngIf="isAuth" routerLink="/play" class="btn-accueil">
+        <button type="button" class="btn btn-outline-primary">Jouer</button>
+      </a>
+    </div>
+    <br />
+    <div class="mx-auto">
+      Les icones sont de
+      <a href="https://www.freepik.com" title="Freepik">Freepik</a> du site
+      <a href="https://www.flaticon.com/" title="Flaticon">Flaticon</a>
+    </div>
   </div>
 </div>

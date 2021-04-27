@@ -9,7 +9,7 @@ import {
 import { ChessPlate } from 'src/app/helpers/models/chess-plate';
 import { ChessPiece } from 'src/app/helpers/models/chess-piece';
 import Position from './../../../helpers/models/position';
-import { ChessGameService } from 'src/app/services/chess-game.service';
+import { ChessGameService } from 'src/app/helpers/services/chess-game.service';
 
 @Component({
   selector: 'app-chess-plate',
@@ -53,9 +53,6 @@ export class ChessPlateComponent implements OnInit {
       elCase?.style.setProperty('width', sizeCase + 'px');
       elCase?.style.setProperty('height', sizeCase + 'px');
     });
-
-    let bandeau = document.getElementById('bandeauTour');
-    bandeau?.style.setProperty('width', sizePlateau + 'px');
   }
 
   movePiece(piece: ChessPiece, position: Position) {

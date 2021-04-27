@@ -7,7 +7,7 @@
       <a class="navbar-brand" routerLink="/">
         <app-icon-button
           text="Accueil"
-          imageSrc="../../../assets/images/home.png"
+          imageSrc="../../../assets/images/logo/home.png"
         ></app-icon-button
       ></a>
     </li>
@@ -16,7 +16,7 @@
       <a class="navbar-brand" routerLink="/login"
         ><app-icon-button
           text="Se connecter"
-          imageSrc="../../../assets/images/login.png"
+          imageSrc="../../../assets/images/logo/login.png"
         ></app-icon-button
       ></a>
     </li>
@@ -25,7 +25,7 @@
       <a class="navbar-brand" routerLink="/register"
         ><app-icon-button
           text="S'inscrire"
-          imageSrc="../../../assets/images/register.png"
+          imageSrc="../../../assets/images/logo/register.png"
         ></app-icon-button
       ></a>
     </li>
@@ -34,16 +34,16 @@
       <a class="navbar-brand" routerLink="/play"
         ><app-icon-button
           text="Jouer"
-          imageSrc="../../../assets/images/controller.png"
+          imageSrc="../../../assets/images/logo/controller.png"
         ></app-icon-button
       ></a>
     </li>
 
     <li *ngIf="isAuth">
-      <a (click)="disconnect()" class="navbar-brand">
+      <a (click)="disconnect()" class="navbar-brand disconnection">
         <app-icon-button
           text="Déconnexion"
-          imageSrc="../../../assets/images/logout.svg"
+          imageSrc="../../../assets/images/logo/logout.svg"
         ></app-icon-button>
       </a>
     </li>

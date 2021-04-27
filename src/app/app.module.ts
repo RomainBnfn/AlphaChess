@@ -30,10 +30,10 @@ import { FooterComponent } from './components/tools/footer/footer.component';
 import { IconButtonComponent } from './components/tools/icon-button/icon-button.component';
 
 // services
-import { AuthService } from './services/auth.service';
-import { SocketIoService } from './services/socket-io.service';
-import { ChessGameService } from './services/chess-game.service';
-import { UserService } from './services/user.service';
+import { AuthService } from './helpers/services/auth.service';
+import { SocketIoService } from './helpers/services/socket-io.service';
+import { ChessGameService } from './helpers/services/chess-game.service';
+import { UserService } from './helpers/services/user.service';
 import { DuelListComponent } from './components/game/duel-list/duel-list.component';
 import { DuelItemComponent } from './components/game/duel-item/duel-item.component';
 import { BannerComponent } from './components/game/banner/banner.component';

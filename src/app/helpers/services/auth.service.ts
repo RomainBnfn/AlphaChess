@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { UserRegisterData } from '../helpers/models/user-register-data';
-import { UserLoginData } from '../helpers/models/user-login-data';
+import { UserRegisterData } from '../models/user-register-data';
+import { UserLoginData } from '../models/user-login-data';
 
 import firebase from 'firebase/app';
 import 'firebase/analytics';
