@@ -14,12 +14,15 @@ Suite à l’évolution du cahier des charges au cours du projet, les objectifs 
 ## Démo
 ### Page d'accueil
 ![Home Page Image](https://github.com/RomainBnfn/AlphaChess/blob/main/images/Homepage.PNG?raw=true)
+
 Sur cette page il est possible de naviguer afin d'accéder aux différentes fonctionnalitées de l'application. 
 ### Page d'inscription
 ![Register Page Image](https://github.com/RomainBnfn/AlphaChess/blob/main/images/Register.PNG?raw=true)
+
 Le formulaire d'inscription présente des messages d'erreurs en direct, et des réponses après avoir interrogé les serveurs Firebase de Google sans rafraichir la page.
 ### Plateau de jeu
 ![Chess Plate 1 Image](https://github.com/RomainBnfn/AlphaChess/blob/main/images/Plate1.PNG?raw=true)
+
 ![Chess Plate 2 with possible mooves in pink Image](https://github.com/RomainBnfn/AlphaChess/blob/main/images/Plate2.PNG?raw=true)
 Ces images montrent les plateaux de jeu de l'application. Lors d'un tour en cours, il est possible de voir les coups possibles en cliquant sur les pièces. Il est possible de lancer la partie en choisissant le temps pour chacun.
 
@@ -42,6 +45,7 @@ Ouvrez maintenant deux terminaux : (1) qui sera pour la partie client et (2) pou
 # Architecture de l'application 
 ## Architecture générale
 Comme vu précédemment, le projet est séparé en deux parties : une cliente et une serveur. La première permet d’afficher aux utilisateurs leur application sur leur navigateur. La deuxième partie, le serveur, est unique et écoute/communique avec les différentes applications qui s’y connectent. Le serveur communique à partir d’une adresse (ip) et d’un port, que l’application doit connaître afin de s’y connecter (informations présentes dans le code). 
+
 ![Explation schema of connexion between users](https://github.com/RomainBnfn/AlphaChess/blob/main/images/SocketIo1.PNG?raw=true)
 
 ## Fonctionnement de la communication serveur/client
@@ -54,11 +58,12 @@ Par la suite, les applications angular écoutent certains messages que le serveu
 La structure d’un message est : 
 - Un nom (string) permettant d’identifier le type de message
 - Un objet de data (any) comportant les informations associées au message
+- 
 ![Explation schema of connexion between users during time](https://github.com/RomainBnfn/AlphaChess/blob/main/images/SocketIo2.PNG?raw=true)
 
 Le schéma ci-dessus représente le fonctionnement des communications clients/serveur entre deux utilisateurs lorsque ces derniers se connectent. Les flèches horizontales représentent le temps, les flèches verticales les messages envoyés (Le bout de la flèche indique le destinataire). (Ce n’est qu’un exemple, pour voir visuellement comment la communication fonctionne)
 
-Comme vu précédemment, il existe différents types de messages que les utilisateurs et le serveur peuvent s’envoyer. Voici la liste des messages :
+Comme vu précédemment, il existe différents types de messages que les utilisateurs et le serveur peuvent s’envoyer. Voici la liste des messages:
 - initConnexion : **\[Client → Serveur]** Lorsqu’un utilisateur se connecte
 - listOpponent : **\[Serveur → Client]** Le serveur envoie la liste de tous les utilisateurs déjà connectés
 - newConnexion : **\[Serveur → Client]** Le serveur envoie le nouvel utilisateur 
