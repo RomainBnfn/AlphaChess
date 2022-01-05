@@ -21,9 +21,8 @@ Sur cette page il est possible de naviguer afin d'accéder aux différentes fonc
 
 Le formulaire d'inscription présente des messages d'erreurs en direct, et des réponses après avoir interrogé les serveurs Firebase de Google sans rafraichir la page.
 ### Plateau de jeu
-![Chess Plate 1 Image](https://github.com/RomainBnfn/AlphaChess/blob/main/images/Plate1.PNG?raw=true)
+| ![Chess Plate 1 Image](https://github.com/RomainBnfn/AlphaChess/blob/main/images/Plate1.PNG?raw=true) | ![Chess Plate 2 with possible mooves in pink Image](https://github.com/RomainBnfn/AlphaChess/blob/main/images/Plate2.PNG?raw=true) |
 
-![Chess Plate 2 with possible mooves in pink Image](https://github.com/RomainBnfn/AlphaChess/blob/main/images/Plate2.PNG?raw=true)
 Ces images montrent les plateaux de jeu de l'application. Lors d'un tour en cours, il est possible de voir les coups possibles en cliquant sur les pièces. Il est possible de lancer la partie en choisissant le temps pour chacun.
 
 ## Installation
