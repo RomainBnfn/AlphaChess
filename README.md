@@ -14,4 +14,4 @@ Suite à l’évolution du cahier des charges au cours du projet, les objectifs 
 ## Démo
 
 ![Home Page Image](https://github.com/[username]/[reponame]/blob/[branch]/images/Homepage.PNG?raw=true)
-![Home Page Image](https://github.com/rbonnefon/AlphaChess/blob/main/images/Homepage.PNG?raw=true)
+![Home Page Image](https://github.com/RomainBnfn/AlphaChess/blob/main/images/Homepage.PNG?raw=true)
